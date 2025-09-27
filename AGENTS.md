@@ -16,6 +16,15 @@ The curriculum repository:
 - Provides type-safe interfaces for integration with the frontend
 - Maintains independence from rendering libraries (like anime.js)
 
+### Key Documentation
+
+For detailed information about specific aspects of the curriculum:
+
+- **[Exercises](.context/exercises.md)** - Creating and structuring exercises
+- **[Levels](.context/levels.md)** - Progressive learning stages and language features
+- **[Syllabus](.context/syllabus.md)** - Course organization and lesson sequencing
+- **[Animations](.context/animations.md)** - Visual feedback system and animation patterns
+
 ### Integration with Jiki Ecosystem
 
 - **Frontend Consumer**: The `@jiki/fe` package imports and renders exercises from this curriculum
@@ -26,22 +35,42 @@ The curriculum repository:
 
 ```
 curriculum/
+├── .context/                 # Detailed documentation
+│   ├── animations.md        # Animation system guide
+│   ├── exercises.md         # Exercise creation guide
+│   ├── levels.md           # Level system documentation
+│   └── syllabus.md         # Syllabus structure guide
 ├── src/
 │   ├── Exercise.ts           # Base Exercise class and Animation interface
 │   ├── index.ts              # Main package exports
-│   └── exercises/            # Individual exercise implementations
-│       ├── index.ts          # Exercise registry
-│       ├── types.ts          # Shared exercise types
-│       └── [exercise-name]/  # Specific exercise folders
-│           ├── index.ts      # Exercise exports
-│           ├── Exercise.ts   # Exercise implementation
-│           └── scenarios.ts  # Exercise scenarios/levels
+│   ├── exercises/            # Individual exercise implementations
+│   │   ├── index.ts          # Exercise registry
+│   │   ├── types.ts          # Shared exercise types
+│   │   └── [exercise-name]/  # Specific exercise folders
+│   │       ├── index.ts      # Exercise exports
+│   │       ├── Exercise.ts   # Exercise implementation
+│   │       └── scenarios.ts  # Exercise scenarios/levels
+│   ├── levels/               # Learning level definitions
+│   │   ├── index.ts          # Level exports and helpers
+│   │   ├── types.ts          # Level type definitions
+│   │   ├── fundamentals.ts   # Basic programming level
+│   │   └── variables.ts      # Variables level
+│   └── syllabus/             # Course structure
+│       ├── index.ts          # Syllabus exports
+│       ├── types.ts          # Syllabus types
+│       └── syllabus.ts       # Main syllabus definition
 ├── dist/                     # Compiled JavaScript output
+├── tests/                    # Test files
+│   ├── exercises/            # Exercise tests
+│   ├── levels/               # Level system tests
+│   └── syllabus/             # Syllabus tests
 ├── PLAN.md                   # Type strategy documentation
 └── package.json             # Package configuration
 ```
 
 ## Core Concepts
+
+For detailed documentation on each concept, see the `.context/` directory files linked above.
 
 ### Exercise Class
 
