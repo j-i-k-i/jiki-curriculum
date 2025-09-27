@@ -17,19 +17,16 @@ describe("Level Definitions", () => {
       const jsFeatures = level.languageFeatures.javascript!;
       expect(jsFeatures.allowedNodes).toBeDefined();
 
-      // Should allow basics
-      expect(jsFeatures.allowedNodes).toContain("Program");
+      // Should allow basics (using actual NodeType names from interpreters)
       expect(jsFeatures.allowedNodes).toContain("ExpressionStatement");
-      expect(jsFeatures.allowedNodes).toContain("CallExpression");
-      expect(jsFeatures.allowedNodes).toContain("Identifier");
-      expect(jsFeatures.allowedNodes).toContain("Literal");
+      expect(jsFeatures.allowedNodes).toContain("LiteralExpression");
+      expect(jsFeatures.allowedNodes).toContain("IdentifierExpression");
       expect(jsFeatures.allowedNodes).toContain("MemberExpression");
 
       // Should NOT allow advanced features
       expect(jsFeatures.allowedNodes).not.toContain("IfStatement");
       expect(jsFeatures.allowedNodes).not.toContain("ForStatement");
       expect(jsFeatures.allowedNodes).not.toContain("VariableDeclaration");
-      expect(jsFeatures.allowedNodes).not.toContain("FunctionDeclaration");
     });
 
     it("should have restrictive feature flags", () => {
@@ -41,21 +38,9 @@ describe("Level Definitions", () => {
       expect(jsFlags.allowShadowing).toBe(false);
     });
 
-    it("should only allow basic Python nodes", () => {
-      const pyFeatures = level.languageFeatures.python!;
-      expect(pyFeatures.allowedNodes).toBeDefined();
-
-      // Should allow basics
-      expect(pyFeatures.allowedNodes).toContain("Module");
-      expect(pyFeatures.allowedNodes).toContain("Expr");
-      expect(pyFeatures.allowedNodes).toContain("Call");
-      expect(pyFeatures.allowedNodes).toContain("Name");
-      expect(pyFeatures.allowedNodes).toContain("Constant");
-
-      // Should NOT allow advanced features
-      expect(pyFeatures.allowedNodes).not.toContain("If");
-      expect(pyFeatures.allowedNodes).not.toContain("While");
-      expect(pyFeatures.allowedNodes).not.toContain("FunctionDef");
+    it("should not have Python nodes defined yet", () => {
+      // Python NodeType is currently 'never' in interpreters, so no nodes can be defined
+      expect(level.languageFeatures.python).toBeUndefined();
     });
   });
 
@@ -79,9 +64,8 @@ describe("Level Definitions", () => {
         expect(variablesJS.allowedNodes).toContain(node);
       });
 
-      // Plus new variable-related nodes
+      // Plus new variable-related nodes (using actual NodeType names)
       expect(variablesJS.allowedNodes).toContain("VariableDeclaration");
-      expect(variablesJS.allowedNodes).toContain("VariableDeclarator");
       expect(variablesJS.allowedNodes).toContain("AssignmentExpression");
       expect(variablesJS.allowedNodes).toContain("BinaryExpression");
       expect(variablesJS.allowedNodes).toContain("UpdateExpression");
@@ -98,17 +82,9 @@ describe("Level Definitions", () => {
       expect(jsFlags.allowTypeCoercion).toBe(false);
     });
 
-    it("should add Python assignment nodes", () => {
-      const pyFeatures = level.languageFeatures.python!;
-
-      // Should have assignment-related nodes
-      expect(pyFeatures.allowedNodes).toContain("Assign");
-      expect(pyFeatures.allowedNodes).toContain("AugAssign");
-      expect(pyFeatures.allowedNodes).toContain("BinOp");
-      expect(pyFeatures.allowedNodes).toContain("Add");
-      expect(pyFeatures.allowedNodes).toContain("Sub");
-      expect(pyFeatures.allowedNodes).toContain("Mult");
-      expect(pyFeatures.allowedNodes).toContain("Div");
+    it("should not have Python nodes defined yet", () => {
+      // Python NodeType is currently 'never' in interpreters, so no nodes can be defined
+      expect(level.languageFeatures.python).toBeUndefined();
     });
   });
 

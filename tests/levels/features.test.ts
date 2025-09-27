@@ -1,20 +1,13 @@
 import { describe, it, expect } from "vitest";
-import {
-  getAllowedNodes,
-  getFeatureFlags,
-  getLanguageFeatures,
-  type JavaScriptNodeType,
-  type PythonNodeType
-} from "../../src/levels";
+import { getAllowedNodes, getFeatureFlags, getLanguageFeatures } from "../../src/levels";
 
 describe("Language Features", () => {
   describe("getAllowedNodes", () => {
     it("should return allowed nodes for JavaScript fundamentals", () => {
       const nodes = getAllowedNodes("fundamentals", "javascript");
       expect(nodes).toBeDefined();
-      expect(nodes).toContain("CallExpression");
-      expect(nodes).toContain("Literal");
-      expect(nodes).toContain("Identifier");
+      expect(nodes).toContain("LiteralExpression");
+      expect(nodes).toContain("IdentifierExpression");
       expect(nodes).not.toContain("ForStatement");
       expect(nodes).not.toContain("IfStatement");
     });
@@ -26,29 +19,18 @@ describe("Language Features", () => {
       expect(nodes).toContain("AssignmentExpression");
       expect(nodes).toContain("BinaryExpression");
       // Should also include everything from fundamentals
-      expect(nodes).toContain("CallExpression");
-      expect(nodes).toContain("Literal");
+      expect(nodes).toContain("LiteralExpression");
+      expect(nodes).toContain("IdentifierExpression");
     });
 
-    it("should return allowed nodes for Python fundamentals", () => {
+    it("should return undefined for Python (not yet defined)", () => {
       const nodes = getAllowedNodes("fundamentals", "python");
-      expect(nodes).toBeDefined();
-      expect(nodes).toContain("Call");
-      expect(nodes).toContain("Constant");
-      expect(nodes).toContain("Name");
-      expect(nodes).not.toContain("If");
-      expect(nodes).not.toContain("While");
+      expect(nodes).toBeUndefined();
     });
 
-    it("should return allowed nodes for Python variables", () => {
+    it("should return undefined for Python variables (not yet defined)", () => {
       const nodes = getAllowedNodes("variables", "python");
-      expect(nodes).toBeDefined();
-      expect(nodes).toContain("Assign");
-      expect(nodes).toContain("BinOp");
-      expect(nodes).toContain("Add");
-      // Should also include everything from fundamentals
-      expect(nodes).toContain("Call");
-      expect(nodes).toContain("Constant");
+      expect(nodes).toBeUndefined();
     });
 
     it("should return undefined for unconfigured language", () => {
@@ -60,21 +42,14 @@ describe("Language Features", () => {
     it("should use proper TypeScript types", () => {
       const jsNodes = getAllowedNodes("fundamentals", "javascript");
       if (jsNodes) {
-        // These should be valid JavaScriptNodeType values
-        const validNodes: JavaScriptNodeType[] = ["CallExpression", "Literal", "Identifier"];
+        // These should be valid NodeType values from interpreters
+        const validNodes = ["LiteralExpression", "IdentifierExpression"];
         validNodes.forEach((node) => {
           expect(jsNodes).toContain(node);
         });
       }
 
-      const pyNodes = getAllowedNodes("fundamentals", "python");
-      if (pyNodes) {
-        // These should be valid PythonNodeType values
-        const validNodes: PythonNodeType[] = ["Call", "Constant", "Name"];
-        validNodes.forEach((node) => {
-          expect(pyNodes).toContain(node);
-        });
-      }
+      // Python tests will be added when NodeType is defined in interpreters
     });
   });
 
@@ -95,11 +70,9 @@ describe("Language Features", () => {
       expect(flags?.allowShadowing).toBe(false);
     });
 
-    it("should return feature flags for Python", () => {
+    it("should return undefined for Python (not yet defined)", () => {
       const flags = getFeatureFlags("fundamentals", "python");
-      expect(flags).toBeDefined();
-      expect(flags?.allowTruthiness).toBe(false);
-      expect(flags?.allowTypeCoercion).toBe(false);
+      expect(flags).toBeUndefined();
     });
 
     it("should return undefined for unconfigured language", () => {
@@ -115,7 +88,7 @@ describe("Language Features", () => {
 
       // Should have allowedNodes
       expect(features.allowedNodes).toBeDefined();
-      expect(features.allowedNodes).toContain("CallExpression");
+      expect(features.allowedNodes).toContain("LiteralExpression");
 
       // Should have feature flags
       expect(features.allowTruthiness).toBe(false);

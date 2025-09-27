@@ -8,11 +8,9 @@ export const fundamentalsLevel: Level = {
   languageFeatures: {
     javascript: {
       allowedNodes: [
-        "Program",
         "ExpressionStatement",
-        "CallExpression",
-        "Identifier",
-        "Literal",
+        "LiteralExpression",
+        "IdentifierExpression",
         "MemberExpression" // For console.log or object.method()
       ],
       featureFlags: {
@@ -21,20 +19,7 @@ export const fundamentalsLevel: Level = {
         enforceStrictEquality: true,
         allowShadowing: false
       }
-    },
-    python: {
-      allowedNodes: [
-        "Module",
-        "Expr",
-        "Call",
-        "Name",
-        "Constant",
-        "Attribute" // For object.method()
-      ],
-      featureFlags: {
-        allowTruthiness: false,
-        allowTypeCoercion: false
-      }
     }
+    // Python support will be added when NodeType is defined in interpreters
   }
 };

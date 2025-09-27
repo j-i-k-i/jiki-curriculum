@@ -9,15 +9,12 @@ export const variablesLevel: Level = {
     javascript: {
       allowedNodes: [
         // Everything from fundamentals
-        "Program",
         "ExpressionStatement",
-        "CallExpression",
-        "Identifier",
-        "Literal",
+        "LiteralExpression",
+        "IdentifierExpression",
         "MemberExpression",
         // New additions for variables
         "VariableDeclaration",
-        "VariableDeclarator",
         "AssignmentExpression",
         "BinaryExpression", // For basic math operations
         "UpdateExpression" // For ++ and --
@@ -29,30 +26,7 @@ export const variablesLevel: Level = {
         allowTypeCoercion: false,
         enforceStrictEquality: true
       }
-    },
-    python: {
-      allowedNodes: [
-        // Everything from fundamentals
-        "Module",
-        "Expr",
-        "Call",
-        "Name",
-        "Constant",
-        "Attribute",
-        // New additions for variables
-        "Assign",
-        "AugAssign", // For += etc
-        "BinOp", // For binary operations
-        "Add",
-        "Sub",
-        "Mult",
-        "Div",
-        "Mod"
-      ],
-      featureFlags: {
-        allowTruthiness: false,
-        allowTypeCoercion: false
-      }
     }
+    // Python support will be added when NodeType is defined in interpreters
   }
 };
