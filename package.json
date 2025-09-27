@@ -1,0 +1,49 @@
+{
+  "name": "@jiki/curriculum",
+  "version": "1.0.0",
+  "description": "Jiki curriculum exercises and content",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky && pnpm run build"
+  },
+  "keywords": [
+    "jiki",
+    "curriculum",
+    "exercises",
+    "learn-to-code"
+  ],
+  "author": "",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "@jiki/interpreters": "workspace:*"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^20",
+    "@typescript-eslint/eslint-plugin": "^8.44.0",
+    "@typescript-eslint/parser": "^8.44.0",
+    "eslint": "^9",
+    "husky": "^9.1.7",
+    "prettier": "^3.6.2",
+    "typescript": "^5"
+  }
+}
