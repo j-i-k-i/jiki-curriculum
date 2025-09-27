@@ -29,13 +29,13 @@ export interface Scenario {
   name: string;
   description: string;
   taskId: string; // References the task this scenario belongs to
-  setup: (exercise: any) => void;
-  expectations: (exercise: any) => TestExpect[];
+  setup: (exercise: Exercise) => void;
+  expectations: (exercise: Exercise) => TestExpect[];
 }
 
 export interface TestExpect {
   pass: boolean;
-  actual: any;
-  expected: any;
+  actual: string | number | boolean;
+  expected: string | number | boolean;
   errorHtml: string;
 }
