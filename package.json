@@ -6,8 +6,10 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
     "typecheck": "tsc --noEmit",
     "lint": "eslint",
     "format": "prettier --write .",
@@ -36,14 +38,17 @@
     "@jiki/interpreters": "workspace:*"
   },
   "devDependencies": {
-    "@eslint/js": "^9.36.0",
     "@eslint/eslintrc": "^3",
+    "@eslint/js": "^9.36.0",
     "@types/node": "^20",
     "@typescript-eslint/eslint-plugin": "^8.44.0",
     "@typescript-eslint/parser": "^8.44.0",
+    "@vitest/ui": "^3.2.4",
     "eslint": "^9",
     "husky": "^9.1.7",
+    "jsdom": "^27.0.0",
     "prettier": "^3.6.2",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.4"
   }
 }
