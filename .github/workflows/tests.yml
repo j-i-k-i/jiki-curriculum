@@ -18,7 +18,7 @@ jobs:
 
       - name: Checkout interpreters repository
         run: |
-          git clone https://github.com/j-i-k-i/interpreters.git interpreters
+          git clone https://github.com/j-i-k-i/jiki-interpreters.git interpreters
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
