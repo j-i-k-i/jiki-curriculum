@@ -17,10 +17,11 @@ export default class BasicMovementExercise extends Exercise {
 
     this.animations.push({
       targets: `#${this.view.id} .character`,
-      left: this.position,
-      duration: 100,
       offset: executionCtx.getCurrentTimeInMs(),
-      transformations: {}
+      duration: 100,
+      transformations: {
+        left: this.position
+      }
     });
 
     executionCtx.fastForward(100);

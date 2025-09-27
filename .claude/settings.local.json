@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/iHiD/Code/jiki/overview/**)",
+      "Read(//Users/iHiD/Code/jiki/fe/**)",
+      "Bash(ln:*)",
+      "Read(//Users/iHiD/Code/jiki/**)",
+      "Read(//Users/iHiD/Code/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

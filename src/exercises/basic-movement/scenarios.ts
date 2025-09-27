@@ -21,17 +21,18 @@ export const scenarios: Scenario[] = [
     description: "Move the character 5 times starting from position 0",
     taskId: "move-character",
 
-    setup(exercise: BasicMovementExercise) {
-      exercise.setStartPosition(0);
+    setup(exercise) {
+      (exercise as BasicMovementExercise).setStartPosition(0);
     },
 
-    expectations(exercise: BasicMovementExercise) {
+    expectations(exercise) {
+      const ex = exercise as BasicMovementExercise;
       return [
         {
-          pass: exercise.position === 100,
-          actual: exercise.position,
+          pass: ex.position === 100,
+          actual: ex.position,
           expected: 100,
-          errorHtml: `Expected position to be 100 but got ${exercise.position}. Did you call move() 5 times?`
+          errorHtml: `Expected position to be 100 but got ${ex.position}. Did you call move() 5 times?`
         }
       ];
     }
@@ -43,17 +44,18 @@ export const scenarios: Scenario[] = [
     description: "Move the character 5 times starting from position 50",
     taskId: "move-character",
 
-    setup(exercise: BasicMovementExercise) {
-      exercise.setStartPosition(50);
+    setup(exercise) {
+      (exercise as BasicMovementExercise).setStartPosition(50);
     },
 
-    expectations(exercise: BasicMovementExercise) {
+    expectations(exercise) {
+      const ex = exercise as BasicMovementExercise;
       return [
         {
-          pass: exercise.position === 150,
-          actual: exercise.position,
+          pass: ex.position === 150,
+          actual: ex.position,
           expected: 150,
-          errorHtml: `Expected position to be 150 but got ${exercise.position}. Did you call move() 5 times?`
+          errorHtml: `Expected position to be 150 but got ${ex.position}. Did you call move() 5 times?`
         }
       ];
     }
@@ -65,17 +67,18 @@ export const scenarios: Scenario[] = [
     description: "Move the character 10 times",
     taskId: "bonus-challenges",
 
-    setup(exercise: BasicMovementExercise) {
-      exercise.setStartPosition(0);
+    setup(exercise) {
+      (exercise as BasicMovementExercise).setStartPosition(0);
     },
 
-    expectations(exercise: BasicMovementExercise) {
+    expectations(exercise) {
+      const ex = exercise as BasicMovementExercise;
       return [
         {
-          pass: exercise.position === 200,
-          actual: exercise.position,
+          pass: ex.position === 200,
+          actual: ex.position,
           expected: 200,
-          errorHtml: `Expected position to be 200 but got ${exercise.position}. Did you call move() 10 times?`
+          errorHtml: `Expected position to be 200 but got ${ex.position}. Did you call move() 10 times?`
         }
       ];
     }
