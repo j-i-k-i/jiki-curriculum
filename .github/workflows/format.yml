@@ -1,0 +1,43 @@
+name: Format Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout curriculum repository
+        uses: actions/checkout@v4
+        with:
+          path: curriculum
+
+      - name: Checkout interpreters repository
+        run: |
+          git clone https://github.com/j-i-k-i/jiki-interpreters.git interpreters
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+          cache-dependency-path: curriculum/pnpm-lock.yaml
+
+      - name: Install all workspace dependencies
+        working-directory: curriculum
+        run: |
+          # Install from curriculum directory which will handle the workspace
+          pnpm install --frozen-lockfile
+
+      - name: Format check
+        working-directory: curriculum
+        run: pnpm run format:check
