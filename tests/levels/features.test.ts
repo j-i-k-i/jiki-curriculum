@@ -23,14 +23,23 @@ describe("Language Features", () => {
       expect(nodes).toContain("IdentifierExpression");
     });
 
-    it("should return undefined for Python (not yet defined)", () => {
+    it("should return allowed nodes for Python fundamentals", () => {
       const nodes = getAllowedNodes("fundamentals", "python");
-      expect(nodes).toBeUndefined();
+      expect(nodes).toBeDefined();
+      expect(nodes).toContain("LiteralExpression");
+      expect(nodes).toContain("IdentifierExpression");
+      expect(nodes).not.toContain("IfStatement");
     });
 
-    it("should return undefined for Python variables (not yet defined)", () => {
+    it("should return allowed nodes for Python variables", () => {
       const nodes = getAllowedNodes("variables", "python");
-      expect(nodes).toBeUndefined();
+      expect(nodes).toBeDefined();
+      expect(nodes).toContain("AssignmentStatement");
+      expect(nodes).toContain("BinaryExpression");
+      expect(nodes).toContain("UnaryExpression");
+      // Should also include fundamentals
+      expect(nodes).toContain("LiteralExpression");
+      expect(nodes).toContain("IdentifierExpression");
     });
 
     it("should return undefined for unconfigured language", () => {
@@ -70,9 +79,11 @@ describe("Language Features", () => {
       expect(flags?.allowShadowing).toBe(false);
     });
 
-    it("should return undefined for Python (not yet defined)", () => {
+    it("should return feature flags for Python fundamentals", () => {
       const flags = getFeatureFlags("fundamentals", "python");
-      expect(flags).toBeUndefined();
+      expect(flags).toBeDefined();
+      expect(flags?.allowTruthiness).toBe(false);
+      expect(flags?.allowTypeCoercion).toBe(false);
     });
 
     it("should return undefined for unconfigured language", () => {

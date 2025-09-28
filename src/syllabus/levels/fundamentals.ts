@@ -20,8 +20,19 @@ export const fundamentalsLevel: Level = {
         enforceStrictEquality: true,
         allowShadowing: false
       }
+    },
+    python: {
+      allowedNodes: [
+        "ExpressionStatement",
+        "LiteralExpression",
+        "IdentifierExpression"
+        // Note: Python doesn't have MemberExpression equivalent yet
+      ],
+      featureFlags: {
+        allowTruthiness: false,
+        allowTypeCoercion: false
+      }
     }
-    // Python support will be added when NodeType is defined in interpreters
   },
 
   lessons: [

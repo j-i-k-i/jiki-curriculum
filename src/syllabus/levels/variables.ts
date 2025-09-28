@@ -27,8 +27,23 @@ export const variablesLevel: Level = {
         allowTypeCoercion: false,
         enforceStrictEquality: true
       }
+    },
+    python: {
+      allowedNodes: [
+        // Everything from fundamentals
+        "ExpressionStatement",
+        "LiteralExpression",
+        "IdentifierExpression",
+        // New additions for variables
+        "AssignmentStatement",
+        "BinaryExpression", // For math operations
+        "UnaryExpression" // For unary operations
+      ],
+      featureFlags: {
+        allowTruthiness: false,
+        allowTypeCoercion: false
+      }
     }
-    // Python support will be added when NodeType is defined in interpreters
   },
 
   lessons: [

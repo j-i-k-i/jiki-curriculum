@@ -2,7 +2,7 @@
 
 ## Overview
 
-The syllabus organizes exercises, tutorials, and other learning content into a structured curriculum. It maps levels to specific lessons, tracks student progress, and provides navigation through the learning path.
+The syllabus organizes exercises, tutorials, and other learning content into a structured curriculum. It maps levels to specific lessons, tracks student progress, and provides navigation through the learning path. The syllabus supports both JavaScript and Python, with exercises automatically adapting their function names to match the chosen language's conventions.
 
 ## Syllabus Structure
 
@@ -90,17 +90,17 @@ getLesson(lessonId);
 
 ### Exercise
 
-- Interactive coding challenges
-- Links to Exercise classes
-- Provides hands-on practice
-- Example: "Move the robot to the goal"
+- Interactive coding challenges with language-specific function naming
+- Links to Exercise classes that define their own unique functions
+- Provides hands-on practice in JavaScript or Python
+- Example: "Move the robot to the goal" using `moveForward()` (JS) or `move_forward()` (Python)
 
 ### Tutorial
 
-- Guided walkthroughs
-- Step-by-step instructions
+- Guided walkthroughs for both JavaScript and Python
+- Step-by-step instructions with language-appropriate syntax
 - Introduces new concepts
-- Example: "How to use variables"
+- Example: "How to use variables" with `let x = 5` (JS) or `x = 5` (Python)
 
 ### Challenge
 

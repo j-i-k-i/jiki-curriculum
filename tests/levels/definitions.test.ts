@@ -38,9 +38,17 @@ describe("Level Definitions", () => {
       expect(jsFlags.allowShadowing).toBe(false);
     });
 
-    it("should not have Python nodes defined yet", () => {
-      // Python NodeType is currently 'never' in interpreters, so no nodes can be defined
-      expect(level.languageFeatures.python).toBeUndefined();
+    it("should have Python nodes mirroring JavaScript functionality", () => {
+      expect(level.languageFeatures.python).toBeDefined();
+      expect(level.languageFeatures.python?.allowedNodes).toEqual([
+        "ExpressionStatement",
+        "LiteralExpression",
+        "IdentifierExpression"
+      ]);
+      expect(level.languageFeatures.python?.featureFlags).toEqual({
+        allowTruthiness: false,
+        allowTypeCoercion: false
+      });
     });
   });
 
@@ -82,9 +90,15 @@ describe("Level Definitions", () => {
       expect(jsFlags.allowTypeCoercion).toBe(false);
     });
 
-    it("should not have Python nodes defined yet", () => {
-      // Python NodeType is currently 'never' in interpreters, so no nodes can be defined
-      expect(level.languageFeatures.python).toBeUndefined();
+    it("should have Python nodes for variable operations", () => {
+      expect(level.languageFeatures.python).toBeDefined();
+      expect(level.languageFeatures.python?.allowedNodes).toContain("AssignmentStatement");
+      expect(level.languageFeatures.python?.allowedNodes).toContain("BinaryExpression");
+      expect(level.languageFeatures.python?.allowedNodes).toContain("UnaryExpression");
+      expect(level.languageFeatures.python?.featureFlags).toEqual({
+        allowTruthiness: false,
+        allowTypeCoercion: false
+      });
     });
   });
 

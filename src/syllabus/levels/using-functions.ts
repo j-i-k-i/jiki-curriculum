@@ -13,6 +13,13 @@ const usingFunctions: Level = {
       // For now using ExpressionStatement which wraps function calls
       allowedNodes: ["ExpressionStatement"],
       featureFlags: {}
+    },
+    python: {
+      allowedNodes: [
+        "ExpressionStatement" // Wraps function calls
+        // Note: Python interpreter may need to add CallExpression support
+      ],
+      featureFlags: {}
     }
   },
   lessons: []
