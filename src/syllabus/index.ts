@@ -1,6 +1,7 @@
 import { syllabus } from "./syllabus";
 import type { LevelId } from "./syllabus";
 import type { Level, Lesson } from "./types";
+import type { javascript, python } from "@jiki/interpreters";
 
 // Export types
 export * from "./types";
@@ -24,19 +25,32 @@ export function getAllowedNodes(levelId: LevelId | string, language: "javascript
 // Helper to get feature flags for a language
 export function getFeatureFlags(
   levelId: LevelId | string,
+  language: "javascript"
+): Omit<javascript.LanguageFeatures, "allowedNodes"> | undefined;
+// eslint-disable-next-line no-redeclare
+export function getFeatureFlags(
+  levelId: LevelId | string,
+  language: "python"
+): Omit<python.LanguageFeatures, "allowedNodes"> | undefined;
+// eslint-disable-next-line no-redeclare
+export function getFeatureFlags(
+  levelId: LevelId | string,
   language: "javascript" | "python"
-): Record<string, number | boolean> | undefined {
+): Omit<javascript.LanguageFeatures, "allowedNodes"> | Omit<python.LanguageFeatures, "allowedNodes"> | undefined {
   const level = getLevel(levelId);
   const features = level?.languageFeatures[language];
-  return features?.featureFlags;
+  return features?.languageFeatures;
 }
 
-// Helper to get combined language features for interpreter
-export function getLanguageFeatures(
+// Get accumulated language features up to and including a level
+// Concatenates allowedNodes and overrides languageFeatures with later levels taking precedence
+export function getAccumulatedLanguageFeatures(
   levelId: LevelId | string,
-  language: "javascript"
+  language: "javascript" | "python"
 ): {
   allowedNodes?: string[];
+  excludeList?: string[];
+  includeList?: string[];
   allowShadowing?: boolean;
   allowTruthiness?: boolean;
   requireVariableInstantiation?: boolean;
@@ -44,17 +58,64 @@ export function getLanguageFeatures(
   oneStatementPerLine?: boolean;
   enforceStrictEquality?: boolean;
 } {
-  const level = getLevel(levelId);
-  if (!level) {
+  const levelIds = getLevelIds();
+  const targetIndex = levelIds.indexOf(levelId as LevelId);
+
+  if (targetIndex === -1) {
     return {};
   }
 
-  const features = level.languageFeatures[language];
+  // Start with empty features
+  let accumulatedNodes: string[] = [];
+  let accumulatedFeatures: Record<string, unknown> = {};
 
+  // Iterate through all levels up to and including the target
+  for (let i = 0; i <= targetIndex; i++) {
+    const level = getLevel(levelIds[i]);
+    if (!level) continue;
+
+    const features = level.languageFeatures[language];
+    if (features === undefined) continue;
+
+    // Concatenate allowed nodes (avoiding duplicates)
+    if (features.allowedNodes !== undefined && features.allowedNodes.length > 0) {
+      const newNodes = features.allowedNodes.filter((node) => !accumulatedNodes.includes(node));
+      accumulatedNodes = [...accumulatedNodes, ...newNodes];
+    }
+
+    // Override language features (later levels take precedence)
+    if (features.languageFeatures !== undefined) {
+      accumulatedFeatures = {
+        ...accumulatedFeatures,
+        ...features.languageFeatures
+      };
+    }
+  }
+
+  // Return combined features matching interpreter's expected shape
   return {
-    allowedNodes: features.allowedNodes,
-    ...features.featureFlags
+    allowedNodes: accumulatedNodes.length > 0 ? accumulatedNodes : undefined,
+    ...accumulatedFeatures
   };
+}
+
+// Helper to get combined language features for interpreter
+export function getLanguageFeatures(
+  levelId: LevelId | string,
+  language: "javascript" | "python"
+): {
+  allowedNodes?: string[];
+  excludeList?: string[];
+  includeList?: string[];
+  allowShadowing?: boolean;
+  allowTruthiness?: boolean;
+  requireVariableInstantiation?: boolean;
+  allowTypeCoercion?: boolean;
+  oneStatementPerLine?: boolean;
+  enforceStrictEquality?: boolean;
+} {
+  // Use accumulated features by default
+  return getAccumulatedLanguageFeatures(levelId, language);
 }
 
 // Get all level IDs in order (useful for progression)

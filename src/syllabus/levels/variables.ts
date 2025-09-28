@@ -20,7 +20,7 @@ export const variablesLevel: Level = {
         "BinaryExpression", // For basic math operations
         "UpdateExpression" // For ++ and --
       ],
-      featureFlags: {
+      languageFeatures: {
         allowShadowing: false,
         requireVariableInstantiation: true,
         allowTruthiness: false,
@@ -39,7 +39,7 @@ export const variablesLevel: Level = {
         "BinaryExpression", // For math operations
         "UnaryExpression" // For unary operations
       ],
-      featureFlags: {
+      languageFeatures: {
         allowTruthiness: false,
         allowTypeCoercion: false
       }

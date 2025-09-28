@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { getAllowedNodes, getFeatureFlags, getLanguageFeatures } from "../../src/syllabus";
+import {
+  getAllowedNodes,
+  getFeatureFlags,
+  getLanguageFeatures,
+  getAccumulatedLanguageFeatures
+} from "../../src/syllabus";
 
 describe("Language Features", () => {
   describe("getAllowedNodes", () => {
@@ -63,7 +68,7 @@ describe("Language Features", () => {
   });
 
   describe("getFeatureFlags", () => {
-    it("should return feature flags for JavaScript fundamentals", () => {
+    it("should return language features for JavaScript fundamentals", () => {
       const flags = getFeatureFlags("fundamentals", "javascript");
       expect(flags).toBeDefined();
       expect(flags?.allowTruthiness).toBe(false);
@@ -72,14 +77,14 @@ describe("Language Features", () => {
       expect(flags?.allowShadowing).toBe(false);
     });
 
-    it("should return feature flags for JavaScript variables", () => {
+    it("should return language features for JavaScript variables", () => {
       const flags = getFeatureFlags("variables", "javascript");
       expect(flags).toBeDefined();
       expect(flags?.requireVariableInstantiation).toBe(true);
       expect(flags?.allowShadowing).toBe(false);
     });
 
-    it("should return feature flags for Python fundamentals", () => {
+    it("should return language features for Python fundamentals", () => {
       const flags = getFeatureFlags("fundamentals", "python");
       expect(flags).toBeDefined();
       expect(flags?.allowTruthiness).toBe(false);
@@ -154,16 +159,70 @@ describe("Language Features", () => {
     });
 
     it("feature flags should remain consistent or become more permissive", () => {
-      const fundamentalFlags = getFeatureFlags("fundamentals", "javascript")!;
-      const variableFlags = getFeatureFlags("variables", "javascript")!;
+      const fundamentalFlags = getFeatureFlags("fundamentals", "javascript");
+      const variableFlags = getFeatureFlags("variables", "javascript");
 
       // Strict equality should remain enforced
-      expect(fundamentalFlags.enforceStrictEquality).toBe(true);
-      expect(variableFlags.enforceStrictEquality).toBe(true);
+      expect(fundamentalFlags?.enforceStrictEquality).toBe(true);
+      expect(variableFlags?.enforceStrictEquality).toBe(true);
 
       // Truthiness should remain disabled in early levels
-      expect(fundamentalFlags.allowTruthiness).toBe(false);
-      expect(variableFlags.allowTruthiness).toBe(false);
+      expect(fundamentalFlags?.allowTruthiness).toBe(false);
+      expect(variableFlags?.allowTruthiness).toBe(false);
+    });
+  });
+
+  describe("getAccumulatedLanguageFeatures", () => {
+    it("should accumulate nodes from all previous levels", () => {
+      const features = getAccumulatedLanguageFeatures("variables", "javascript");
+
+      // Should have nodes from both fundamentals and variables
+      expect(features.allowedNodes).toContain("LiteralExpression"); // from fundamentals
+      expect(features.allowedNodes).toContain("IdentifierExpression"); // from fundamentals
+      expect(features.allowedNodes).toContain("VariableDeclaration"); // from variables
+      expect(features.allowedNodes).toContain("AssignmentExpression"); // from variables
+    });
+
+    it("should not duplicate nodes", () => {
+      const features = getAccumulatedLanguageFeatures("variables", "javascript");
+      const literalCount = features.allowedNodes?.filter((n) => n === "LiteralExpression").length ?? 0;
+      expect(literalCount).toBe(1);
+    });
+
+    it("should override language features with later levels", () => {
+      const fundamentals = getAccumulatedLanguageFeatures("fundamentals", "javascript");
+      const variables = getAccumulatedLanguageFeatures("variables", "javascript");
+
+      // fundamentals shouldn't have this flag
+      expect(fundamentals.requireVariableInstantiation).toBeUndefined();
+
+      // variables should have it
+      expect(variables.requireVariableInstantiation).toBe(true);
+
+      // Both should maintain base restrictions
+      expect(fundamentals.allowTruthiness).toBe(false);
+      expect(variables.allowTruthiness).toBe(false);
+    });
+
+    it("should work for Python as well", () => {
+      const features = getAccumulatedLanguageFeatures("variables", "python");
+
+      // Should have nodes from both levels
+      expect(features.allowedNodes).toContain("LiteralExpression");
+      expect(features.allowedNodes).toContain("AssignmentStatement");
+      expect(features.allowedNodes).toContain("BinaryExpression");
+    });
+
+    it("should return empty object for invalid level", () => {
+      const features = getAccumulatedLanguageFeatures("invalid-level", "javascript");
+      expect(features).toEqual({});
+    });
+
+    it("getLanguageFeatures should use accumulated features by default", () => {
+      const accumulated = getAccumulatedLanguageFeatures("variables", "javascript");
+      const features = getLanguageFeatures("variables", "javascript");
+
+      expect(features).toEqual(accumulated);
     });
   });
 });

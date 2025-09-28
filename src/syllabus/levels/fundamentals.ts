@@ -14,7 +14,7 @@ export const fundamentalsLevel: Level = {
         "IdentifierExpression",
         "MemberExpression" // For console.log or object.method()
       ],
-      featureFlags: {
+      languageFeatures: {
         allowTruthiness: false,
         allowTypeCoercion: false,
         enforceStrictEquality: true,
@@ -28,7 +28,7 @@ export const fundamentalsLevel: Level = {
         "IdentifierExpression"
         // Note: Python doesn't have MemberExpression equivalent yet
       ],
-      featureFlags: {
+      languageFeatures: {
         allowTruthiness: false,
         allowTypeCoercion: false
       }

@@ -13,4 +13,12 @@ export { Exercise, type Animation } from "./Exercise";
 export { TestExercise } from "./mocks";
 
 // Export syllabus (formerly levels) - only what's needed
-export { syllabus, getLevel, getLanguageFeatures, type Level, type LevelId, type Lesson } from "./syllabus";
+export {
+  syllabus,
+  getLevel,
+  getLanguageFeatures,
+  getAccumulatedLanguageFeatures,
+  type Level,
+  type LevelId,
+  type Lesson
+} from "./syllabus";

@@ -30,7 +30,7 @@ describe("Level Definitions", () => {
     });
 
     it("should have restrictive feature flags", () => {
-      const jsFlags = level.languageFeatures.javascript?.featureFlags!;
+      const jsFlags = level.languageFeatures.javascript?.languageFeatures!;
 
       expect(jsFlags.allowTruthiness).toBe(false);
       expect(jsFlags.allowTypeCoercion).toBe(false);
@@ -45,7 +45,7 @@ describe("Level Definitions", () => {
         "LiteralExpression",
         "IdentifierExpression"
       ]);
-      expect(level.languageFeatures.python?.featureFlags).toEqual({
+      expect(level.languageFeatures.python?.languageFeatures).toEqual({
         allowTruthiness: false,
         allowTypeCoercion: false
       });
@@ -80,7 +80,7 @@ describe("Level Definitions", () => {
     });
 
     it("should enable variable-specific feature flags", () => {
-      const jsFlags = level.languageFeatures.javascript?.featureFlags!;
+      const jsFlags = level.languageFeatures.javascript?.languageFeatures!;
 
       expect(jsFlags.requireVariableInstantiation).toBe(true);
       expect(jsFlags.allowShadowing).toBe(false); // Still restrictive
@@ -95,7 +95,7 @@ describe("Level Definitions", () => {
       expect(level.languageFeatures.python?.allowedNodes).toContain("AssignmentStatement");
       expect(level.languageFeatures.python?.allowedNodes).toContain("BinaryExpression");
       expect(level.languageFeatures.python?.allowedNodes).toContain("UnaryExpression");
-      expect(level.languageFeatures.python?.featureFlags).toEqual({
+      expect(level.languageFeatures.python?.languageFeatures).toEqual({
         allowTruthiness: false,
         allowTypeCoercion: false
       });
@@ -139,7 +139,7 @@ describe("Level Definitions", () => {
 
       levelIds.forEach((id) => {
         const level = getLevel(id)!;
-        const jsFlags = level.languageFeatures.javascript?.featureFlags;
+        const jsFlags = level.languageFeatures.javascript?.languageFeatures;
 
         if (jsFlags) {
           // Early levels should be restrictive
@@ -163,12 +163,12 @@ describe("Level Definitions", () => {
         const hasPython = level.languageFeatures.python !== undefined;
         expect(hasJS || hasPython).toBe(true);
 
-        // If has JavaScript, should have both nodes and flags
+        // If has JavaScript, should have both nodes and language features
         if (hasJS) {
           expect(level.languageFeatures.javascript!.allowedNodes).toBeDefined();
           expect(Array.isArray(level.languageFeatures.javascript!.allowedNodes)).toBe(true);
           expect(level.languageFeatures.javascript!.allowedNodes!.length).toBeGreaterThan(0);
-          expect(level.languageFeatures.javascript!.featureFlags).toBeDefined();
+          expect(level.languageFeatures.javascript!.languageFeatures).toBeDefined();
         }
 
         // If has Python, should have nodes

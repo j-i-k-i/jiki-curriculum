@@ -22,25 +22,17 @@ export interface JavaScriptFeatures {
   // AST node types that are allowed
   allowedNodes?: javascript.NodeType[];
 
-  // Feature flags (matching interpreter's LanguageFeatures)
-  featureFlags?: {
-    allowShadowing?: boolean;
-    allowTruthiness?: boolean;
-    requireVariableInstantiation?: boolean;
-    allowTypeCoercion?: boolean;
-    oneStatementPerLine?: boolean;
-    enforceStrictEquality?: boolean;
-  };
+  // Language behavior features (excluding allowedNodes from interpreter's LanguageFeatures)
+  languageFeatures?: Omit<javascript.LanguageFeatures, "allowedNodes">;
 }
 
-// Python features (for future use)
+// Python features
 export interface PythonFeatures {
+  // AST node types that are allowed
   allowedNodes?: python.NodeType[];
-  featureFlags?: {
-    // Python-specific flags will be added as needed
-    allowTruthiness?: boolean;
-    allowTypeCoercion?: boolean;
-  };
+
+  // Language behavior features (excluding allowedNodes from interpreter's LanguageFeatures)
+  languageFeatures?: Omit<python.LanguageFeatures, "allowedNodes">;
 }
 
 // Lesson types

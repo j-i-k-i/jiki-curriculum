@@ -12,14 +12,14 @@ const usingFunctions: Level = {
       // TODO: CallExpression needs to be implemented in the interpreter
       // For now using ExpressionStatement which wraps function calls
       allowedNodes: ["ExpressionStatement"],
-      featureFlags: {}
+      languageFeatures: {}
     },
     python: {
       allowedNodes: [
         "ExpressionStatement" // Wraps function calls
         // Note: Python interpreter may need to add CallExpression support
       ],
-      featureFlags: {}
+      languageFeatures: {}
     }
   },
   lessons: []
