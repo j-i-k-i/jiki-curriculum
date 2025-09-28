@@ -16,9 +16,10 @@ cat .todo/exercises.md
 
 ## Step 2: Planning Phase
 
-Based on the exercise found in the todo file, I'll ask you some clarifying questions:
+Based on the exercise found in the todo file, I'll ask you some clarifying questions (if they're not covered in the todo):
 
 1. **Exercise Mechanics**:
+   - What is the an underlying game/puzzle?
    - What should the player/character be able to do? (e.g., move, jump, rotate, etc.)
    - What visual elements should be displayed on screen?
    - How should the exercise respond to each available function?
@@ -91,6 +92,20 @@ After implementation, I'll:
 - Build the package to check for TypeScript errors
 - Run any existing tests
 - Verify the exercise structure matches existing patterns
-- Ensure animations and state work correctly
+- Ensure state work correctly by adding tests, and checking the correct animations are generated for different scenarios/code intersections (but not by checking the animations actually work)
+
+## Step 6: Quality Assurance & Commit
+
+Before committing, I'll ensure all of the following pass:
+
+- `pnpm run test` - All tests must pass
+- `pnpm run typecheck` - No TypeScript errors
+- `pnpm run lint` - No linting issues
+- `pnpm run format:check` - Code is properly formatted
+
+After all checks pass:
+
+- Remove the section from the exercises todo
+- Commit, push to a feature branch, and create a PR
 
 Let's begin by examining the todo file and determining the next exercise to implement.

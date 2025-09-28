@@ -17,7 +17,10 @@
       "Bash(chmod:*)",
       "Bash(/Users/iHiD/Code/jiki/fe/checkout-main.sh)",
       "Bash(gh pr create:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(git push:*)",
+      "Read(//Users/iHiD/.claude/**)",
+      "Bash(git fetch:*)"
     ],
     "deny": [],
     "ask": []
