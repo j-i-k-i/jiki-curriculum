@@ -1,49 +1,47 @@
 import { describe, it, expect } from "vitest";
-import { mainSyllabus } from "../../src/syllabus";
-import { hasLevel } from "../../src/levels";
+import { syllabus, hasLevel } from "../../src/syllabus";
 import { exercises } from "../../src/exercises";
 
 describe("Syllabus Structure", () => {
-  describe("mainSyllabus", () => {
-    it("should have required top-level properties", () => {
-      expect(mainSyllabus).toHaveProperty("title");
-      expect(mainSyllabus).toHaveProperty("levelProgression");
-      expect(typeof mainSyllabus.title).toBe("string");
-      expect(Array.isArray(mainSyllabus.levelProgression)).toBe(true);
+  describe("syllabus", () => {
+    it("should be an array of levels", () => {
+      expect(Array.isArray(syllabus)).toBe(true);
+      expect(syllabus.length).toBeGreaterThan(0);
     });
 
-    it("should have meaningful title and description", () => {
-      expect(mainSyllabus.title.length).toBeGreaterThan(0);
-      expect(mainSyllabus.title.length).toBeGreaterThan(5);
-      if (mainSyllabus.description !== undefined) {
-        expect(mainSyllabus.description.length).toBeGreaterThan(10);
-      }
+    it("each level should have valid structure", () => {
+      syllabus.forEach((level) => {
+        expect(level).toHaveProperty("id");
+        expect(level).toHaveProperty("title");
+        expect(level).toHaveProperty("lessons");
+        expect(Array.isArray(level.lessons)).toBe(true);
+      });
     });
   });
 
-  describe("level progressions", () => {
-    it("each progression should have valid structure", () => {
-      mainSyllabus.levelProgression.forEach((progression) => {
-        expect(progression).toHaveProperty("levelId");
-        expect(progression).toHaveProperty("lessons");
-        expect(typeof progression.levelId).toBe("string");
-        expect(Array.isArray(progression.lessons)).toBe(true);
+  describe("level lessons", () => {
+    it("each level should have valid lesson structure", () => {
+      syllabus.forEach((level) => {
+        expect(level).toHaveProperty("id");
+        expect(level).toHaveProperty("lessons");
+        expect(typeof level.id).toBe("string");
+        expect(Array.isArray(level.lessons)).toBe(true);
       });
     });
 
-    it("all levelIds should reference existing levels", () => {
-      mainSyllabus.levelProgression.forEach((progression) => {
-        expect(hasLevel(progression.levelId)).toBe(true);
+    it("all level IDs should be valid", () => {
+      syllabus.forEach((level) => {
+        expect(hasLevel(level.id)).toBe(true);
       });
     });
 
     it("should have fundamentals as first level", () => {
-      expect(mainSyllabus.levelProgression.length).toBeGreaterThan(0);
-      expect(mainSyllabus.levelProgression[0].levelId).toBe("fundamentals");
+      expect(syllabus.length).toBeGreaterThan(0);
+      expect(syllabus[0].id).toBe("fundamentals");
     });
 
     it("should have logical level ordering", () => {
-      const levelIds = mainSyllabus.levelProgression.map((p) => p.levelId);
+      const levelIds = syllabus.map((level) => level.id);
 
       // Fundamentals should come before variables
       const fundamentalsIndex = levelIds.indexOf("fundamentals");
@@ -57,8 +55,8 @@ describe("Syllabus Structure", () => {
 
   describe("lessons", () => {
     it("all lessons should have required properties", () => {
-      mainSyllabus.levelProgression.forEach((progression) => {
-        progression.lessons.forEach((lesson) => {
+      syllabus.forEach((level) => {
+        level.lessons.forEach((lesson) => {
           expect(lesson).toHaveProperty("id");
           expect(lesson).toHaveProperty("title");
           expect(lesson).toHaveProperty("type");
@@ -72,8 +70,8 @@ describe("Syllabus Structure", () => {
     it("lesson IDs should be unique across entire syllabus", () => {
       const allIds: string[] = [];
 
-      mainSyllabus.levelProgression.forEach((progression) => {
-        progression.lessons.forEach((lesson) => {
+      syllabus.forEach((level) => {
+        level.lessons.forEach((lesson) => {
           allIds.push(lesson.id);
         });
       });
@@ -83,8 +81,8 @@ describe("Syllabus Structure", () => {
     });
 
     it("exercise lessons should have valid exerciseSlug", () => {
-      mainSyllabus.levelProgression.forEach((progression) => {
-        progression.lessons.forEach((lesson) => {
+      syllabus.forEach((level) => {
+        level.lessons.forEach((lesson) => {
           if (lesson.type === "exercise") {
             expect(lesson).toHaveProperty("exerciseSlug");
             expect(typeof lesson.exerciseSlug).toBe("string");
@@ -97,8 +95,8 @@ describe("Syllabus Structure", () => {
     });
 
     it("tutorial lessons should have content or reference", () => {
-      mainSyllabus.levelProgression.forEach((progression) => {
-        progression.lessons.forEach((lesson) => {
+      syllabus.forEach((level) => {
+        level.lessons.forEach((lesson) => {
           if (lesson.type === "tutorial") {
             // Should have some way to get content
             const hasTutorialContent = "tutorialContent" in lesson;
@@ -109,8 +107,8 @@ describe("Syllabus Structure", () => {
     });
 
     it("lessons should have meaningful titles", () => {
-      mainSyllabus.levelProgression.forEach((progression) => {
-        progression.lessons.forEach((lesson) => {
+      syllabus.forEach((level) => {
+        level.lessons.forEach((lesson) => {
           expect(lesson.title).toBeTruthy();
           expect(lesson.title.length).toBeGreaterThan(3);
           // Title should be properly capitalized (first letter uppercase)
@@ -122,7 +120,7 @@ describe("Syllabus Structure", () => {
 
   describe("content coverage", () => {
     it("fundamentals level should have at least one lesson", () => {
-      const fundamentals = mainSyllabus.levelProgression.find((p) => p.levelId === "fundamentals");
+      const fundamentals = syllabus.find((level) => level.id === "fundamentals");
       expect(fundamentals).toBeDefined();
       expect(fundamentals!.lessons.length).toBeGreaterThanOrEqual(1);
     });
@@ -130,8 +128,8 @@ describe("Syllabus Structure", () => {
     it("should have at least one exercise lesson", () => {
       let hasExercise = false;
 
-      mainSyllabus.levelProgression.forEach((progression) => {
-        progression.lessons.forEach((lesson) => {
+      syllabus.forEach((level) => {
+        level.lessons.forEach((lesson) => {
           if (lesson.type === "exercise") {
             hasExercise = true;
           }
@@ -143,7 +141,7 @@ describe("Syllabus Structure", () => {
 
     it("lesson types should match level capabilities", () => {
       // For example, fundamentals shouldn't have complex challenges
-      const fundamentals = mainSyllabus.levelProgression.find((p) => p.levelId === "fundamentals");
+      const fundamentals = syllabus.find((level) => level.id === "fundamentals");
 
       if (fundamentals) {
         fundamentals.lessons.forEach((lesson) => {
@@ -156,21 +154,21 @@ describe("Syllabus Structure", () => {
 
   describe("data integrity", () => {
     it("should not have empty lesson arrays", () => {
-      mainSyllabus.levelProgression.forEach((progression) => {
+      syllabus.forEach((level) => {
         // It's okay to have empty arrays for levels not yet implemented
         // but if there are lessons, they should be valid
-        if (progression.lessons.length > 0) {
-          expect(progression.lessons.length).toBeGreaterThan(0);
+        if (level.lessons.length > 0) {
+          expect(level.lessons.length).toBeGreaterThan(0);
         }
       });
     });
 
     it("should use consistent naming conventions", () => {
-      mainSyllabus.levelProgression.forEach((progression) => {
+      syllabus.forEach((level) => {
         // Level IDs should be lowercase with hyphens
-        expect(progression.levelId).toMatch(/^[a-z-]+$/);
+        expect(level.id).toMatch(/^[a-z-]+$/);
 
-        progression.lessons.forEach((lesson) => {
+        level.lessons.forEach((lesson) => {
           // Lesson IDs should be lowercase with hyphens
           expect(lesson.id).toMatch(/^[a-z-]+$/);
         });

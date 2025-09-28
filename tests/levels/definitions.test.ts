@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { getLevel, getLevelIds } from "../../src/levels";
+import { getLevel, getLevelIds } from "../../src/syllabus";
 
 describe("Level Definitions", () => {
   describe("fundamentals level", () => {
-    const level = getLevel("fundamentals");
+    const level = getLevel("fundamentals")!;
 
     it("should have appropriate metadata", () => {
       expect(level.id).toBe("fundamentals");
@@ -45,7 +45,7 @@ describe("Level Definitions", () => {
   });
 
   describe("variables level", () => {
-    const level = getLevel("variables");
+    const level = getLevel("variables")!;
 
     it("should have appropriate metadata", () => {
       expect(level.id).toBe("variables");
@@ -56,7 +56,7 @@ describe("Level Definitions", () => {
     });
 
     it("should include all fundamentals nodes plus variable-specific ones", () => {
-      const fundamentalsJS = getLevel("fundamentals").languageFeatures.javascript!;
+      const fundamentalsJS = getLevel("fundamentals")!.languageFeatures.javascript!;
       const variablesJS = level.languageFeatures.javascript!;
 
       // Should include everything from fundamentals
@@ -93,8 +93,8 @@ describe("Level Definitions", () => {
       const levelIds = getLevelIds();
 
       for (let i = 1; i < levelIds.length; i++) {
-        const prevLevel = getLevel(levelIds[i - 1]);
-        const currLevel = getLevel(levelIds[i]);
+        const prevLevel = getLevel(levelIds[i - 1])!;
+        const currLevel = getLevel(levelIds[i])!;
 
         // Check JavaScript nodes
         const prevJSNodes = prevLevel.languageFeatures.javascript?.allowedNodes || [];
@@ -124,7 +124,7 @@ describe("Level Definitions", () => {
       const levelIds = getLevelIds();
 
       levelIds.forEach((id) => {
-        const level = getLevel(id);
+        const level = getLevel(id)!;
         const jsFlags = level.languageFeatures.javascript?.featureFlags;
 
         if (jsFlags) {
@@ -142,7 +142,7 @@ describe("Level Definitions", () => {
       const levelIds = getLevelIds();
 
       levelIds.forEach((id) => {
-        const level = getLevel(id);
+        const level = getLevel(id)!;
 
         // Should have at least one language
         const hasJS = level.languageFeatures.javascript !== undefined;

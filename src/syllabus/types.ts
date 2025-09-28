@@ -1,17 +1,48 @@
-import type { LevelId } from "../levels";
+// Import node types from interpreters - the canonical source
+import type { javascript, python } from "@jiki/interpreters";
 import type { ExerciseSlug } from "../exercises";
 
-export interface Syllabus {
-  title: string;
-  description?: string;
-  levelProgression: LevelProgression[];
+// Core level interface
+export interface Level {
+  id: string; // e.g., "fundamentals", "control-flow"
+  title: string; // e.g., "Programming Fundamentals"
+  description?: string; // What students learn at this level
+
+  languageFeatures: {
+    javascript?: JavaScriptFeatures;
+    python?: PythonFeatures;
+  };
+
+  lessons: Lesson[]; // Lessons for this level
 }
 
-export interface LevelProgression {
-  levelId: LevelId; // References Level.id from levels registry
-  lessons: Lesson[];
+// JavaScript-specific features
+export interface JavaScriptFeatures {
+  // AST node types that are allowed
+  allowedNodes?: javascript.NodeType[];
+
+  // Feature flags (matching interpreter's LanguageFeatures)
+  featureFlags?: {
+    allowShadowing?: boolean;
+    allowTruthiness?: boolean;
+    requireVariableInstantiation?: boolean;
+    allowTypeCoercion?: boolean;
+    oneStatementPerLine?: boolean;
+    enforceStrictEquality?: boolean;
+  };
 }
 
+// Python features (for future use)
+export interface PythonFeatures {
+  allowedNodes?: python.NodeType[];
+  featureFlags?: {
+    // Python-specific flags will be added as needed
+    allowTruthiness?: boolean;
+    allowTypeCoercion?: boolean;
+  };
+}
+
+// Lesson types
 export type LessonType = "exercise" | "tutorial" | "challenge" | "assessment";
 
 export interface BaseLesson {

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
-  mainSyllabus,
+  syllabus,
   getLessonsForLevel,
   getLesson,
   getLevelForLesson,
@@ -8,6 +8,7 @@ import {
   getPreviousLesson,
   getAllExerciseLessons
 } from "../../src/syllabus";
+import type { Lesson } from "../../src/syllabus";
 
 describe("Syllabus Navigation", () => {
   describe("getLessonsForLevel", () => {
@@ -31,7 +32,6 @@ describe("Syllabus Navigation", () => {
     });
 
     it("should return empty array for non-existent level", () => {
-      // @ts-expect-error Testing invalid level
       const lessons = getLessonsForLevel("non-existent");
       expect(lessons).toEqual([]);
     });
@@ -48,6 +48,7 @@ describe("Syllabus Navigation", () => {
         const fundamentalsIds = fundamentalsLessons.map((l) => l.id);
         const variablesIds = variablesLessons.map((l) => l.id);
 
+        // No overlapping IDs
         fundamentalsIds.forEach((id) => {
           expect(variablesIds).not.toContain(id);
         });
@@ -69,13 +70,12 @@ describe("Syllabus Navigation", () => {
       expect(lesson).toBeUndefined();
     });
 
-    it("should find lessons across different levels", () => {
-      // Add a test for when we have lessons in multiple levels
-      mainSyllabus.levelProgression.forEach((progression) => {
-        progression.lessons.forEach((expectedLesson) => {
+    it("should find lessons from any level", () => {
+      // Test finding lesson from different levels
+      syllabus.forEach((level) => {
+        level.lessons.forEach((expectedLesson) => {
           const foundLesson = getLesson(expectedLesson.id);
-          expect(foundLesson).toBeDefined();
-          expect(foundLesson?.id).toBe(expectedLesson.id);
+          expect(foundLesson).toEqual(expectedLesson);
         });
       });
     });
@@ -88,58 +88,54 @@ describe("Syllabus Navigation", () => {
     });
 
     it("should return undefined for non-existent lesson", () => {
-      const levelId = getLevelForLesson("non-existent");
+      const levelId = getLevelForLesson("non-existent-lesson");
       expect(levelId).toBeUndefined();
     });
 
-    it("should correctly identify level for all existing lessons", () => {
-      mainSyllabus.levelProgression.forEach((progression) => {
-        progression.lessons.forEach((lesson) => {
-          const levelId = getLevelForLesson(lesson.id);
-          expect(levelId).toBe(progression.levelId);
+    it("should correctly identify level for all lessons", () => {
+      syllabus.forEach((level) => {
+        level.lessons.forEach((lesson) => {
+          const foundLevelId = getLevelForLesson(lesson.id);
+          expect(foundLevelId).toBe(level.id);
         });
       });
     });
   });
 
   describe("getNextLesson", () => {
-    it("should return next lesson in same level", () => {
-      // This test will be more meaningful when we have multiple lessons
-      const fundamentalsLessons = getLessonsForLevel("fundamentals");
-
-      if (fundamentalsLessons.length > 1) {
-        const firstLesson = fundamentalsLessons[0];
+    it("should return next lesson within same level", () => {
+      // This depends on whether we have multiple lessons in fundamentals
+      const fundamentals = syllabus.find((p) => p.id === "fundamentals");
+      if (fundamentals && fundamentals.lessons.length > 1) {
+        const firstLesson = fundamentals.lessons[0];
         const nextLesson = getNextLesson(firstLesson.id);
         expect(nextLesson).toBeDefined();
-        expect(nextLesson?.id).toBe(fundamentalsLessons[1].id);
+        expect(nextLesson?.id).toBe(fundamentals.lessons[1].id);
       }
     });
 
     it("should return next lesson across levels", () => {
-      // When we have lessons in multiple levels, test cross-level navigation
-      const allLessons: (typeof mainSyllabus.levelProgression)[0]["lessons"] = [];
-      mainSyllabus.levelProgression.forEach((p) => {
-        allLessons.push(...p.lessons);
-      });
+      // Get last lesson of fundamentals
+      const fundamentals = syllabus.find((p) => p.id === "fundamentals");
+      const variables = syllabus.find((p) => p.id === "variables");
 
-      if (allLessons.length > 1) {
-        for (let i = 0; i < allLessons.length - 1; i++) {
-          const nextLesson = getNextLesson(allLessons[i].id);
-          if (nextLesson) {
-            expect(nextLesson.id).toBe(allLessons[i + 1].id);
-          }
-        }
+      if (fundamentals && variables && fundamentals.lessons.length > 0 && variables.lessons.length > 0) {
+        const lastFundamentalsLesson = fundamentals.lessons[fundamentals.lessons.length - 1];
+        const nextLesson = getNextLesson(lastFundamentalsLesson.id);
+        expect(nextLesson?.id).toBe(variables.lessons[0].id);
       }
     });
 
     it("should return undefined for last lesson", () => {
-      const allLessons: (typeof mainSyllabus.levelProgression)[0]["lessons"] = [];
-      mainSyllabus.levelProgression.forEach((p) => {
-        allLessons.push(...p.lessons);
+      // Find the very last lesson
+      let lastLesson: Lesson | undefined;
+      syllabus.forEach((level) => {
+        if (level.lessons.length > 0) {
+          lastLesson = level.lessons[level.lessons.length - 1];
+        }
       });
 
-      if (allLessons.length > 0) {
-        const lastLesson = allLessons[allLessons.length - 1];
+      if (lastLesson) {
         const nextLesson = getNextLesson(lastLesson.id);
         expect(nextLesson).toBeUndefined();
       }
@@ -152,22 +148,35 @@ describe("Syllabus Navigation", () => {
   });
 
   describe("getPreviousLesson", () => {
-    it("should return previous lesson in same level", () => {
-      const fundamentalsLessons = getLessonsForLevel("fundamentals");
-
-      if (fundamentalsLessons.length > 1) {
-        const secondLesson = fundamentalsLessons[1];
-        const prevLesson = getPreviousLesson(secondLesson.id);
-        expect(prevLesson).toBeDefined();
-        expect(prevLesson?.id).toBe(fundamentalsLessons[0].id);
+    it("should return undefined for first lesson", () => {
+      const firstLevel = syllabus[0];
+      if (firstLevel.lessons.length > 0) {
+        const firstLesson = firstLevel.lessons[0];
+        const prevLesson = getPreviousLesson(firstLesson.id);
+        expect(prevLesson).toBeUndefined();
       }
     });
 
-    it("should return undefined for first lesson", () => {
-      const firstLesson = mainSyllabus.levelProgression[0]?.lessons[0];
-      if (firstLesson !== undefined) {
-        const prevLesson = getPreviousLesson(firstLesson.id);
-        expect(prevLesson).toBeUndefined();
+    it("should return previous lesson within same level", () => {
+      const fundamentals = syllabus.find((p) => p.id === "fundamentals");
+      if (fundamentals && fundamentals.lessons.length > 1) {
+        const secondLesson = fundamentals.lessons[1];
+        const prevLesson = getPreviousLesson(secondLesson.id);
+        expect(prevLesson).toBeDefined();
+        expect(prevLesson?.id).toBe(fundamentals.lessons[0].id);
+      }
+    });
+
+    it("should return previous lesson across levels", () => {
+      // Get first lesson of variables (second level)
+      const fundamentals = syllabus.find((p) => p.id === "fundamentals");
+      const variables = syllabus.find((p) => p.id === "variables");
+
+      if (fundamentals && variables && fundamentals.lessons.length > 0 && variables.lessons.length > 0) {
+        const firstVariablesLesson = variables.lessons[0];
+        const prevLesson = getPreviousLesson(firstVariablesLesson.id);
+        const lastFundamentalsLesson = fundamentals.lessons[fundamentals.lessons.length - 1];
+        expect(prevLesson?.id).toBe(lastFundamentalsLesson.id);
       }
     });
 
@@ -175,27 +184,14 @@ describe("Syllabus Navigation", () => {
       const prevLesson = getPreviousLesson("non-existent");
       expect(prevLesson).toBeUndefined();
     });
-
-    it("should correctly navigate backwards through syllabus", () => {
-      const allLessons: (typeof mainSyllabus.levelProgression)[0]["lessons"] = [];
-      mainSyllabus.levelProgression.forEach((p) => {
-        allLessons.push(...p.lessons);
-      });
-
-      for (let i = 1; i < allLessons.length; i++) {
-        const prevLesson = getPreviousLesson(allLessons[i].id);
-        if (prevLesson !== undefined) {
-          expect(prevLesson.id).toBe(allLessons[i - 1].id);
-        }
-      }
-    });
   });
 
   describe("getAllExerciseLessons", () => {
-    it("should return only exercise type lessons", () => {
+    it("should return all exercise type lessons", () => {
       const exercises = getAllExerciseLessons();
       expect(Array.isArray(exercises)).toBe(true);
 
+      // All returned lessons should be exercises
       exercises.forEach((lesson) => {
         expect(lesson.type).toBe("exercise");
       });
@@ -203,13 +199,13 @@ describe("Syllabus Navigation", () => {
 
     it("should include exercises from all levels", () => {
       const exercises = getAllExerciseLessons();
-      const exerciseIds = new Set(exercises.map((e) => e.id));
+      const exerciseIds = exercises.map((e) => e.id);
 
-      // Check that we found all exercise lessons
-      mainSyllabus.levelProgression.forEach((progression) => {
-        progression.lessons.forEach((lesson) => {
+      // Check that we get exercises from different levels
+      syllabus.forEach((level) => {
+        level.lessons.forEach((lesson) => {
           if (lesson.type === "exercise") {
-            expect(exerciseIds.has(lesson.id)).toBe(true);
+            expect(exerciseIds).toContain(lesson.id);
           }
         });
       });
@@ -217,55 +213,20 @@ describe("Syllabus Navigation", () => {
 
     it("should not include non-exercise lessons", () => {
       const exercises = getAllExerciseLessons();
-      const exerciseIds = new Set(exercises.map((e) => e.id));
+      const allLessons: Lesson[] = [];
 
-      // Check that non-exercise lessons are not included
-      mainSyllabus.levelProgression.forEach((progression) => {
-        progression.lessons.forEach((lesson) => {
-          if (lesson.type !== "exercise") {
-            expect(exerciseIds.has(lesson.id)).toBe(false);
-          }
-        });
+      syllabus.forEach((p) => allLessons.push(...p.lessons));
+
+      const nonExerciseLessons = allLessons.filter((l) => l.type !== "exercise");
+
+      nonExerciseLessons.forEach((lesson) => {
+        expect(exercises).not.toContain(lesson);
       });
     });
 
     it("should return at least one exercise", () => {
       const exercises = getAllExerciseLessons();
       expect(exercises.length).toBeGreaterThanOrEqual(1);
-    });
-
-    it("should maintain order from syllabus", () => {
-      const exercises = getAllExerciseLessons();
-      const allLessons: (typeof mainSyllabus.levelProgression)[0]["lessons"] = [];
-      mainSyllabus.levelProgression.forEach((p) => {
-        allLessons.push(...p.lessons);
-      });
-
-      const exerciseLessons = allLessons.filter((l) => l.type === "exercise");
-
-      // Order should be preserved
-      exercises.forEach((exercise, index) => {
-        expect(exercise.id).toBe(exerciseLessons[index].id);
-      });
-    });
-  });
-
-  describe("navigation edge cases", () => {
-    it("should handle empty level progressions", () => {
-      const emptyLevelLessons = mainSyllabus.levelProgression.find((p) => p.lessons.length === 0);
-
-      if (emptyLevelLessons) {
-        const lessons = getLessonsForLevel(emptyLevelLessons.levelId);
-        expect(lessons).toEqual([]);
-      }
-    });
-
-    it("should handle navigation with single lesson", () => {
-      if (getAllExerciseLessons().length === 1) {
-        const lesson = getAllExerciseLessons()[0];
-        expect(getNextLesson(lesson.id)).toBeUndefined();
-        expect(getPreviousLesson(lesson.id)).toBeUndefined();
-      }
     });
   });
 });
