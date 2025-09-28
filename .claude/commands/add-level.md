@@ -4,7 +4,15 @@ description: Add a new level from .todo/levels.md to the curriculum
 
 # Add Next Level from Todo List
 
-I'll help you add the next level from `.todo/levels.md` to the curriculum. Let me start by reading the todo file and understanding what level needs to be implemented.
+I'll help you add the next level from `.todo/levels.md` to the curriculum. Let me start by reading the level documentation and todo file.
+
+## Step 0: Read Context Documentation
+
+First, let me read the level documentation to understand the structure:
+
+```bash
+cat .context/levels.md
+```
 
 ## Step 1: Read the todo file
 
@@ -18,9 +26,13 @@ cat .todo/levels.md
 
 Based on the level found in the todo file, I'll ask you some clarifying questions (if they're not covered in the todo):
 
-1. **JavaScript Node Types**: Which AST node types should be allowed for this level? Should it build upon the previous level's allowed nodes?
+1. **Language Node Types**:
+   - **JavaScript**: Which AST node types should be allowed? Should it build upon the previous level's allowed nodes?
+   - **Python**: Which Python AST node types should be allowed? (May be added later if interpreter support isn't ready)
 
-2. **Feature Flags**: What language feature flags should be changed? Common options include:
+2. **Feature Flags**: What language feature flags should be changed for each language?
+
+   **JavaScript flags**:
    - `allowShadowing`: Allow variable shadowing?
    - `requireVariableInstantiation`: Require variables to be initialized?
    - `allowTruthiness`: Allow truthy/falsy checks?
@@ -28,7 +40,12 @@ Based on the level found in the todo file, I'll ask you some clarifying question
    - `enforceStrictEquality`: Enforce === over ==?
    - `oneStatementPerLine`: Enforce one statement per line?
 
-   Feature flags build on previous exercises, so we only need to add things that change.
+   **Python flags**:
+   - `allowTruthiness`: Allow truthy/falsy checks?
+   - `allowTypeCoercion`: Allow type coercion?
+   - Additional Python-specific flags as needed
+
+   Feature flags build on previous levels, so we only need to specify changes.
 
 3. **Level Structure**:
    - Should this level build incrementally on the previous level's features?
@@ -46,8 +63,8 @@ After gathering your answers, I'll present a detailed plan showing:
 1. **The new level file** that will be created at `src/syllabus/levels/[level-name].ts`
 2. **The level configuration** including:
    - ID, title, description, and educational goal
-   - Allowed JavaScript nodes
-   - Feature flags
+   - Allowed nodes for JavaScript (and Python if applicable)
+   - Feature flags for both languages
    - Empty lessons array (as requested)
 3. **Syllabus integration** - how it will be added to `src/syllabus/syllabus.ts`
 

@@ -50,6 +50,8 @@ src/exercises/
 
 ### Step 1: Create the Exercise Class
 
+Each exercise defines its own specific functions that become available to students. These are not generic functions - they are unique to each exercise and provide the specific behavior for that exercise's puzzle or challenge.
+
 ```typescript
 // src/exercises/maze-navigation/Exercise.ts
 import { Exercise } from "../../Exercise";
@@ -59,9 +61,10 @@ export class MazeNavigationExercise extends Exercise {
   private playerX = 0;
   private playerY = 0;
 
+  // These functions are specific to THIS exercise
   availableFunctions = [
     {
-      name: "moveForward",
+      name: "move_forward", // Python: move_forward(), JavaScript: moveForward()
       func: (ctx: ExecutionContext) => {
         this.playerY -= 1;
         this.animations.push({
@@ -74,6 +77,13 @@ export class MazeNavigationExercise extends Exercise {
         });
       },
       description: "Move the player forward one square"
+    },
+    {
+      name: "turn_left", // Python: turn_left(), JavaScript: turnLeft()
+      func: (ctx: ExecutionContext) => {
+        // Implementation specific to this exercise's turning logic
+      },
+      description: "Turn the player left"
     }
   ];
 
@@ -87,9 +97,14 @@ export class MazeNavigationExercise extends Exercise {
 }
 ```
 
+Functions are defined in snake_case and automatically converted for each language:
+
+- **Python**: `move_forward()`, `turn_left()` (as defined)
+- **JavaScript**: `moveForward()`, `turnLeft()` (automatically converted)
+
 ### Step 2: Define Scenarios
 
-Scenarios provide different difficulty levels or variations:
+Scenarios are like test cases - they provide different starting states and success conditions for the same exercise. All scenarios in an exercise use the same available functions:
 
 ```typescript
 // src/exercises/maze-navigation/scenarios.ts
@@ -97,12 +112,34 @@ export const scenarios = {
   simple: {
     name: "Simple Path",
     description: "Navigate a straight path to the goal",
-    setup: { startX: 0, startY: 5, goalX: 0, goalY: 0 }
+    // Different starting state
+    initialState: {
+      playerX: 0,
+      playerY: 5,
+      goalX: 0,
+      goalY: 0,
+      obstacles: []
+    },
+    // Different success criteria
+    successCondition: (state) => state.x === 0 && state.y === 0
   },
   complex: {
     name: "Winding Path",
     description: "Navigate around obstacles",
-    setup: { startX: 0, startY: 5, goalX: 5, goalY: 0, obstacles: [...] }
+    // More complex starting state
+    initialState: {
+      playerX: 0,
+      playerY: 5,
+      goalX: 5,
+      goalY: 0,
+      obstacles: [
+        [1, 3],
+        [2, 3],
+        [3, 3]
+      ] // Wall positions
+    },
+    // Same functions available, different challenge
+    successCondition: (state) => state.x === 5 && state.y === 0
   }
 };
 ```
@@ -173,22 +210,37 @@ The frontend:
 
 ## Example Exercises
 
-### Basic Movement
+### Basic Movement Exercise
 
 - **Concepts**: Function calls, sequential execution
-- **Functions**: `moveRight()`, `moveLeft()`, `moveUp()`, `moveDown()`
+- **Exercise-specific functions** (defined in snake_case):
+  - `move_right` - Move the character right
+  - `move_left` - Move the character left
+  - `move_up` - Move the character up
+  - `move_down` - Move the character down
+- **Language usage**:
+  - Python: `move_right()` (as defined)
+  - JavaScript: `moveRight()` (auto-converted)
 - **Goal**: Navigate to a target position
 
-### Loop Practice
+### Loop Practice Exercise
 
 - **Concepts**: For loops, repetition
-- **Functions**: `moveForward()`, `turnLeft()`, `turnRight()`
+- **Exercise-specific functions** (defined in snake_case):
+  - `move_forward` - Move in current direction
+  - `turn_left` - Rotate 90 degrees left
+  - `turn_right` - Rotate 90 degrees right
+- **Note**: Different exercise, different functions - these are unique to this exercise
 - **Goal**: Navigate a repeating pattern efficiently
 
-### Conditional Logic
+### Conditional Logic Exercise
 
 - **Concepts**: If statements, boolean logic
-- **Functions**: `canMoveForward()`, `isAtGoal()`, `moveForward()`
+- **Exercise-specific functions** (defined in snake_case):
+  - `can_move_forward` - Check if path ahead is clear
+  - `is_at_goal` - Check if reached the goal
+  - `move_forward` - Move one step forward
+- **Note**: Each exercise defines what functions make sense for its puzzle
 - **Goal**: Navigate a maze with decision points
 
 ## Testing Exercises

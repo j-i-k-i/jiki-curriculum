@@ -20,15 +20,30 @@ export const variablesLevel: Level = {
         "BinaryExpression", // For basic math operations
         "UpdateExpression" // For ++ and --
       ],
-      featureFlags: {
+      languageFeatures: {
         allowShadowing: false,
         requireVariableInstantiation: true,
         allowTruthiness: false,
         allowTypeCoercion: false,
         enforceStrictEquality: true
       }
+    },
+    python: {
+      allowedNodes: [
+        // Everything from fundamentals
+        "ExpressionStatement",
+        "LiteralExpression",
+        "IdentifierExpression",
+        // New additions for variables
+        "AssignmentStatement",
+        "BinaryExpression", // For math operations
+        "UnaryExpression" // For unary operations
+      ],
+      languageFeatures: {
+        allowTruthiness: false,
+        allowTypeCoercion: false
+      }
     }
-    // Python support will be added when NodeType is defined in interpreters
   },
 
   lessons: [

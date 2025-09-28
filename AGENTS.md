@@ -4,17 +4,18 @@ This file provides guidance to AI agents when working with the Jiki curriculum r
 
 ## Repository Overview
 
-This is the **@jiki/curriculum** package - a TypeScript library that defines all exercises and learning content for the Jiki platform. It serves as the central source of educational content that gets consumed by the frontend application.
+This is the **@jiki/curriculum** package - a TypeScript library that defines all exercises and learning content for the Jiki platform. It serves as the central source of educational content that gets consumed by the frontend application, supporting both JavaScript and Python programming languages.
 
 ### Purpose
 
 The curriculum repository:
 
-- Defines all coding exercises and their scenarios
+- Defines all coding exercises and their scenarios for both JavaScript and Python
 - Produces animations that visualize code execution
-- Manages exercise state and available functions
+- Manages exercise state and available functions (with language-appropriate naming)
 - Provides type-safe interfaces for integration with the frontend
 - Maintains independence from rendering libraries (like anime.js)
+- Ensures feature parity between JavaScript and Python learning paths
 
 ### Key Documentation
 
@@ -71,6 +72,15 @@ curriculum/
 ## Core Concepts
 
 For detailed documentation on each concept, see the `.context/` directory files linked above.
+
+### Language Support
+
+The curriculum supports both JavaScript and Python:
+
+- **Exercises**: Each exercise defines its own functions in snake_case; the interpreter converts to camelCase for JavaScript
+- **Levels**: Define allowed syntax nodes and feature flags for each language
+- **Interpreters**: The `@jiki/interpreters` package provides execution for both languages and handles naming conventions
+- **Scenarios**: Test different starting states and success conditions, regardless of language
 
 ### Exercise Class
 
@@ -144,12 +154,13 @@ pnpm run format       # Format with Prettier
 1. **Create exercise folder**: `src/exercises/[exercise-name]/`
 2. **Implement Exercise class**:
    - Extend the base `Exercise` class
-   - Define `availableFunctions` array
+   - Define `availableFunctions` array (unique to this exercise)
+   - Use snake_case for function names (JavaScript conversion is automatic)
    - Implement `getState()` method
    - Create animations in response to function calls
-3. **Define scenarios** in `scenarios.ts`
+3. **Define scenarios** in `scenarios.ts` (test cases with different states)
 4. **Export from** `src/exercises/index.ts`
-5. **Test integration** with the frontend
+5. **Test integration** with both JavaScript and Python
 
 ### Example Exercise Structure
 
@@ -162,9 +173,10 @@ export class BasicMovementExercise extends Exercise {
   private playerX = 0;
   private playerY = 0;
 
+  // Functions unique to this exercise (defined in snake_case)
   availableFunctions = [
     {
-      name: "moveRight",
+      name: "move_right", // Base name in snake_case
       func: (ctx: ExecutionContext) => {
         this.playerX += 10;
         this.animations.push({
@@ -185,6 +197,11 @@ export class BasicMovementExercise extends Exercise {
   }
 }
 ```
+
+The interpreter automatically converts function names:
+
+- **Python**: `move_right()` (as defined)
+- **JavaScript**: `moveRight()` (auto-converted to camelCase)
 
 ## Type Architecture
 
@@ -218,6 +235,8 @@ When adding new animation properties:
 - **Progressive difficulty** - Scenarios should build on previous knowledge
 - **Visual feedback** - Animations should clearly show code effects
 - **Minimal state** - Keep exercise state simple and focused
+- **Language parity** - Functions should work naturally in both JS and Python
+- **Exercise-specific functions** - Each exercise defines its own unique functions
 
 ### Code Organization
 
@@ -257,6 +276,8 @@ When adding new animation properties:
 3. **Backward compatibility** - Don't break existing exercise APIs
 4. **Clear documentation** - Document all public APIs
 5. **Test scenarios** - Each exercise needs testable scenarios
+6. **Language consistency** - Maintain feature parity between JS and Python
+7. **Function uniqueness** - Each exercise defines its own specific functions
 
 ## Common Tasks
 

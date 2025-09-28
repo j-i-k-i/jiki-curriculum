@@ -11,7 +11,7 @@ Levels define the progressive learning stages in Jiki. Each level specifies whic
 1. **Allowed Nodes**: Which AST (Abstract Syntax Tree) node types can be used
 2. **Feature Flags**: Language behavior controls (e.g., type coercion, truthiness)
 3. **Progressive Enablement**: Each level builds upon the previous one
-4. **Language Support**: Currently JavaScript, with Python planned
+4. **Language Support**: JavaScript and Python
 
 ### Type Structure
 
@@ -34,6 +34,15 @@ interface JavaScriptFeatures {
     requireVariableInstantiation?: boolean;
     allowTypeCoercion?: boolean;
     enforceStrictEquality?: boolean;
+  };
+}
+
+interface PythonFeatures {
+  allowedNodes?: python.NodeType[]; // From @jiki/interpreters
+  featureFlags?: {
+    allowTruthiness?: boolean;
+    allowTypeCoercion?: boolean;
+    // Python-specific flags added as needed
   };
 }
 ```
@@ -73,13 +82,21 @@ interface JavaScriptFeatures {
 
 ## Feature Flags
 
-### JavaScript Feature Flags
+### Language Feature Flags
+
+#### JavaScript
 
 - **allowShadowing**: Can variables shadow outer scope variables?
 - **allowTruthiness**: Can non-boolean values be used in conditions?
 - **requireVariableInstantiation**: Must variables be declared before use?
 - **allowTypeCoercion**: Can types be automatically converted?
 - **enforceStrictEquality**: Must `===` be used instead of `==`?
+
+#### Python
+
+- **allowTruthiness**: Can non-boolean values be used in conditions?
+- **allowTypeCoercion**: Can types be automatically converted?
+- Additional Python-specific flags will be added as the interpreter evolves
 
 ### Design Philosophy
 
@@ -98,7 +115,13 @@ The curriculum imports `NodeType` definitions from `@jiki/interpreters`:
 import type { javascript, python } from "@jiki/interpreters";
 
 // Use interpreter's canonical NodeType
-allowedNodes: javascript.NodeType[]
+javascript: {
+  allowedNodes: javascript.NodeType[]
+}
+
+python: {
+  allowedNodes: python.NodeType[]
+}
 ```
 
 This ensures type safety and consistency between what the curriculum allows and what the interpreter can execute.
@@ -130,6 +153,19 @@ export const functionsLevel: Level = {
       featureFlags: {
         ...variablesLevel.featureFlags,
         allowFunctionHoisting: true
+      }
+    },
+    python: {
+      allowedNodes: [
+        // Python equivalents of JavaScript nodes
+        "Module",
+        "FunctionDef",
+        "Call",
+        "Return"
+      ],
+      featureFlags: {
+        allowTruthiness: false,
+        allowTypeCoercion: false
       }
     }
   }
@@ -201,5 +237,6 @@ See `tests/levels/` for comprehensive test examples.
 
 - **Dynamic Level Detection**: Automatically suggest level based on code complexity
 - **Custom Levels**: Allow instructors to create custom progressions
-- **Language Parity**: Ensure JavaScript and Python levels align
+- **Language Parity**: Continue ensuring JavaScript and Python levels align
 - **Skill Trees**: Non-linear progression paths
+- **Language-Specific Features**: Add unique language features (e.g., Python list comprehensions, JavaScript async/await)

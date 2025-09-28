@@ -4,7 +4,15 @@ description: Add a new exercise from .todo/exercises.md to the curriculum
 
 # Add Next Exercise from Todo List
 
-I'll help you add the next exercise from `.todo/exercises.md` to the curriculum. Let me start by reading the todo file and understanding what exercise needs to be implemented.
+I'll help you add the next exercise from `.todo/exercises.md` to the curriculum. Let me start by reading the exercise documentation and todo file.
+
+## Step 0: Read Context Documentation
+
+First, let me read the exercise documentation to understand the patterns:
+
+```bash
+cat .context/exercises.md
+```
 
 ## Step 1: Read the todo file
 
@@ -19,16 +27,18 @@ cat .todo/exercises.md
 Based on the exercise found in the todo file, I'll ask you some clarifying questions (if they're not covered in the todo):
 
 1. **Exercise Mechanics**:
-   - What is the an underlying game/puzzle?
+   - What is the underlying game/puzzle?
    - What should the player/character be able to do? (e.g., move, jump, rotate, etc.)
    - What visual elements should be displayed on screen?
    - How should the exercise respond to each available function?
+   - Remember: Each exercise defines its own unique functions
 
 2. **Available Functions**:
-   - What functions should be exposed to the learner?
+   - What exercise-specific functions should be exposed to the learner?
    - What should each function do (visually and in state)?
    - Should functions have parameters? If so, what type and range?
    - Any timing/duration for animations?
+   - Note: Use snake_case naming (JavaScript conversion is automatic)
 
 3. **State Management**:
    - What state properties need to be tracked? (e.g., position, rotation, score)
@@ -41,10 +51,11 @@ Based on the exercise found in the todo file, I'll ask you some clarifying quest
    - Should there be any background, grid, or reference markers?
    - What colors/themes align with the exercise concept?
 
-5. **Scenarios** (if applicable):
-   - Should this exercise have different difficulty levels or scenarios?
-   - What changes between scenarios? (e.g., starting position, goals, constraints)
-   - How do scenarios relate to the level's learning objectives?
+5. **Scenarios** (test cases):
+   - What different starting states should we test?
+   - What success conditions vary between scenarios?
+   - Remember: Scenarios are like test cases - same functions, different states
+   - How do scenarios progressively increase difficulty?
 
 6. **Learning Objectives**:
    - What programming concept does this exercise teach?
@@ -62,9 +73,10 @@ After gathering your answers, I'll present a detailed plan showing:
 
 2. **Exercise class design** including:
    - State properties and their initial values
-   - Available functions with descriptions
+   - Exercise-specific available functions (in snake_case) with descriptions
    - Animation logic for each function
    - View generation with HTML/CSS
+   - Support for both JavaScript (auto-converted) and Python naming
 
 3. **Integration points**:
    - Export from `src/exercises/index.ts`
