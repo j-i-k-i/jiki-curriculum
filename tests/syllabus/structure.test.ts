@@ -35,9 +35,9 @@ describe("Syllabus Structure", () => {
       });
     });
 
-    it("should have fundamentals as first level", () => {
+    it("should have using-functions as first level", () => {
       expect(syllabus.length).toBeGreaterThan(0);
-      expect(syllabus[0].id).toBe("fundamentals");
+      expect(syllabus[0].id).toBe("using-functions");
     });
 
     it("should have logical level ordering", () => {

@@ -3,18 +3,30 @@ import { syllabus, getLevel, hasLevel, getLevelIds } from "../../src/syllabus";
 
 describe("Level Registry", () => {
   describe("syllabus array", () => {
-    it("should contain fundamentals level", () => {
+    it("should contain using-functions level", () => {
       expect(syllabus[0]).toBeDefined();
-      expect(syllabus[0].id).toBe("fundamentals");
+      expect(syllabus[0].id).toBe("using-functions");
+    });
+
+    it("should contain fundamentals level", () => {
+      expect(syllabus[1]).toBeDefined();
+      expect(syllabus[1].id).toBe("fundamentals");
     });
 
     it("should contain variables level", () => {
-      expect(syllabus[1]).toBeDefined();
-      expect(syllabus[1].id).toBe("variables");
+      expect(syllabus[2]).toBeDefined();
+      expect(syllabus[2].id).toBe("variables");
     });
   });
 
   describe("getLevel", () => {
+    it("should return using-functions level when requested", () => {
+      const level = getLevel("using-functions")!;
+      expect(level.id).toBe("using-functions");
+      expect(level.title).toBe("Using Functions");
+      expect(level.description).toContain("functions");
+    });
+
     it("should return fundamentals level when requested", () => {
       const level = getLevel("fundamentals")!;
       expect(level.id).toBe("fundamentals");
@@ -43,6 +55,7 @@ describe("Level Registry", () => {
 
   describe("hasLevel", () => {
     it("should return true for existing levels", () => {
+      expect(hasLevel("using-functions")).toBe(true);
       expect(hasLevel("fundamentals")).toBe(true);
       expect(hasLevel("variables")).toBe(true);
     });
@@ -72,8 +85,9 @@ describe("Level Registry", () => {
 
     it("should return IDs in definition order", () => {
       const ids = getLevelIds();
-      expect(ids[0]).toBe("fundamentals");
-      expect(ids[1]).toBe("variables");
+      expect(ids[0]).toBe("using-functions");
+      expect(ids[1]).toBe("fundamentals");
+      expect(ids[2]).toBe("variables");
     });
 
     it("should return array of proper LevelId type", () => {

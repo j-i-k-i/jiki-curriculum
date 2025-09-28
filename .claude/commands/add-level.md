@@ -16,11 +16,11 @@ cat .todo/levels.md
 
 ## Step 2: Planning Phase
 
-Based on the level found in the todo file, I'll ask you some clarifying questions:
+Based on the level found in the todo file, I'll ask you some clarifying questions (if they're not covered in the todo):
 
 1. **JavaScript Node Types**: Which AST node types should be allowed for this level? Should it build upon the previous level's allowed nodes?
 
-2. **Feature Flags**: What language feature flags should be set? Common options include:
+2. **Feature Flags**: What language feature flags should be changed? Common options include:
    - `allowShadowing`: Allow variable shadowing?
    - `requireVariableInstantiation`: Require variables to be initialized?
    - `allowTruthiness`: Allow truthy/falsy checks?
@@ -28,12 +28,16 @@ Based on the level found in the todo file, I'll ask you some clarifying question
    - `enforceStrictEquality`: Enforce === over ==?
    - `oneStatementPerLine`: Enforce one statement per line?
 
+   Feature flags build on previous exercises, so we only need to add things that change.
+
 3. **Level Structure**:
    - Should this level build incrementally on the previous level's features?
    - What's the main learning objective for this level?
    - Any specific exercises or lessons you'd like to reference (even if not implemented yet)?
 
-4. **Description**: What description should be used for the level to explain what students will learn?
+4. **Description**: What description should be used for the level to explain what students will learn? Remember: This description is STUDENT-facing.
+
+5. **Educational Goal**: What's the educational goal of this exercise. This is a reference for the educator.
 
 ## Step 3: Implementation Plan
 
@@ -41,7 +45,7 @@ After gathering your answers, I'll present a detailed plan showing:
 
 1. **The new level file** that will be created at `src/syllabus/levels/[level-name].ts`
 2. **The level configuration** including:
-   - ID, title, and description
+   - ID, title, description, and educational goal
    - Allowed JavaScript nodes
    - Feature flags
    - Empty lessons array (as requested)
@@ -52,5 +56,18 @@ Once you approve the plan, I'll implement the level by:
 - Creating the new level file with the agreed configuration
 - Importing it in the syllabus
 - Adding it to the syllabus array in the correct position
+- Updating tests to reflect the new level
+- Ensuring all checks pass (tests, TypeScript, linting, formatting)
+- Removing the section from the levels todo
+- Committing, pushing to a feature branch, and creating a PR
+
+## Important: Before committing
+
+I will ensure that all of the following pass:
+
+- `pnpm run test` - All tests must pass
+- `pnpm run typecheck` - No TypeScript errors
+- `pnpm run lint` - No linting issues
+- `pnpm run format:check` - Code is properly formatted
 
 Let's begin by examining the todo file and determining the next level to implement.

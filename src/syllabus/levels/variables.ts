@@ -4,6 +4,7 @@ export const variablesLevel: Level = {
   id: "variables",
   title: "Variables and Assignments",
   description: "Learn to declare variables, assign values, and perform basic operations",
+  educationalGoal: "",
 
   languageFeatures: {
     javascript: {

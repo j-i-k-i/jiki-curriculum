@@ -4,6 +4,7 @@ export const fundamentalsLevel: Level = {
   id: "fundamentals",
   title: "Programming Fundamentals",
   description: "Learn the basics: function calls and literal values",
+  educationalGoal: "",
 
   languageFeatures: {
     javascript: {
