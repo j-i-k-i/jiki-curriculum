@@ -1,42 +1,42 @@
 import { describe, it, expect } from "vitest";
-import { levels, getLevel, hasLevel, getLevelIds } from "../../src/levels";
+import { syllabus, getLevel, hasLevel, getLevelIds } from "../../src/syllabus";
 
 describe("Level Registry", () => {
-  describe("levels object", () => {
+  describe("syllabus array", () => {
     it("should contain fundamentals level", () => {
-      expect(levels.fundamentals).toBeDefined();
-      expect(levels.fundamentals.id).toBe("fundamentals");
+      expect(syllabus[0]).toBeDefined();
+      expect(syllabus[0].id).toBe("fundamentals");
     });
 
     it("should contain variables level", () => {
-      expect(levels.variables).toBeDefined();
-      expect(levels.variables.id).toBe("variables");
+      expect(syllabus[1]).toBeDefined();
+      expect(syllabus[1].id).toBe("variables");
     });
   });
 
   describe("getLevel", () => {
     it("should return fundamentals level when requested", () => {
-      const level = getLevel("fundamentals");
+      const level = getLevel("fundamentals")!;
       expect(level.id).toBe("fundamentals");
       expect(level.title).toBe("Programming Fundamentals");
       expect(level.description).toContain("function calls");
     });
 
     it("should return variables level when requested", () => {
-      const level = getLevel("variables");
+      const level = getLevel("variables")!;
       expect(level.id).toBe("variables");
       expect(level.title).toBe("Variables and Assignments");
       expect(level.description).toContain("declare variables");
     });
 
-    it("should throw error for invalid level ID", () => {
-      // @ts-expect-error Testing invalid input
-      expect(() => getLevel("invalid-level")).toThrow("Level 'invalid-level' not found");
+    it("should return undefined for invalid level ID", () => {
+      const level = getLevel("invalid-level");
+      expect(level).toBeUndefined();
     });
 
     it("should return the same object reference from registry", () => {
-      const level1 = getLevel("fundamentals");
-      const level2 = getLevel("fundamentals");
+      const level1 = getLevel("fundamentals")!;
+      const level2 = getLevel("fundamentals")!;
       expect(level1).toBe(level2); // Same reference
     });
   });
@@ -53,11 +53,10 @@ describe("Level Registry", () => {
       expect(hasLevel("")).toBe(false);
     });
 
-    it("should act as type guard for LevelId", () => {
+    it("should work with any string", () => {
       const testId: string = "fundamentals";
       if (hasLevel(testId)) {
-        // TypeScript should now know testId is LevelId
-        const level = getLevel(testId); // Should not error
+        const level = getLevel(testId);
         expect(level).toBeDefined();
       }
     });
@@ -81,7 +80,7 @@ describe("Level Registry", () => {
       const ids = getLevelIds();
       ids.forEach((id) => {
         // Should be able to use each ID with getLevel without type errors
-        const level = getLevel(id);
+        const level = getLevel(id)!;
         expect(level).toBeDefined();
       });
     });
@@ -91,7 +90,7 @@ describe("Level Registry", () => {
     it("all levels should have required properties", () => {
       const ids = getLevelIds();
       ids.forEach((id) => {
-        const level = getLevel(id);
+        const level = getLevel(id)!;
         expect(level).toHaveProperty("id");
         expect(level).toHaveProperty("title");
         expect(level).toHaveProperty("languageFeatures");
@@ -104,7 +103,7 @@ describe("Level Registry", () => {
     it("all levels should have at least one language configured", () => {
       const ids = getLevelIds();
       ids.forEach((id) => {
-        const level = getLevel(id);
+        const level = getLevel(id)!;
         const hasJS = level.languageFeatures.javascript !== undefined;
         const hasPython = level.languageFeatures.python !== undefined;
         expect(hasJS || hasPython).toBe(true);
