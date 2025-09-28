@@ -10,8 +10,8 @@ export interface Level {
   educationalGoal: string; // Internal facing: What's the educational goal.
 
   languageFeatures: {
-    javascript?: JavaScriptFeatures;
-    python?: PythonFeatures;
+    javascript: JavaScriptFeatures;
+    python: PythonFeatures;
   };
 
   lessons: Lesson[]; // Lessons for this level

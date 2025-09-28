@@ -50,9 +50,6 @@ export function getLanguageFeatures(
   }
 
   const features = level.languageFeatures[language];
-  if (!features) {
-    return {};
-  }
 
   return {
     allowedNodes: features.allowedNodes,
