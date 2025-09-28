@@ -1,0 +1,56 @@
+---
+description: Add a new level from .todo/levels.md to the curriculum
+---
+
+# Add Next Level from Todo List
+
+I'll help you add the next level from `.todo/levels.md` to the curriculum. Let me start by reading the todo file and understanding what level needs to be implemented.
+
+## Step 1: Read the todo file
+
+First, let me check what's the next level to implement:
+
+```bash
+cat .todo/levels.md
+```
+
+## Step 2: Planning Phase
+
+Based on the level found in the todo file, I'll ask you some clarifying questions:
+
+1. **JavaScript Node Types**: Which AST node types should be allowed for this level? Should it build upon the previous level's allowed nodes?
+
+2. **Feature Flags**: What language feature flags should be set? Common options include:
+   - `allowShadowing`: Allow variable shadowing?
+   - `requireVariableInstantiation`: Require variables to be initialized?
+   - `allowTruthiness`: Allow truthy/falsy checks?
+   - `allowTypeCoercion`: Allow type coercion?
+   - `enforceStrictEquality`: Enforce === over ==?
+   - `oneStatementPerLine`: Enforce one statement per line?
+
+3. **Level Structure**:
+   - Should this level build incrementally on the previous level's features?
+   - What's the main learning objective for this level?
+   - Any specific exercises or lessons you'd like to reference (even if not implemented yet)?
+
+4. **Description**: What description should be used for the level to explain what students will learn?
+
+## Step 3: Implementation Plan
+
+After gathering your answers, I'll present a detailed plan showing:
+
+1. **The new level file** that will be created at `src/syllabus/levels/[level-name].ts`
+2. **The level configuration** including:
+   - ID, title, and description
+   - Allowed JavaScript nodes
+   - Feature flags
+   - Empty lessons array (as requested)
+3. **Syllabus integration** - how it will be added to `src/syllabus/syllabus.ts`
+
+Once you approve the plan, I'll implement the level by:
+
+- Creating the new level file with the agreed configuration
+- Importing it in the syllabus
+- Adding it to the syllabus array in the correct position
+
+Let's begin by examining the todo file and determining the next level to implement.
