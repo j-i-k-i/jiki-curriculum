@@ -4,15 +4,17 @@ This file provides guidance to AI agents when working with the Jiki curriculum r
 
 ## Repository Overview
 
-This is the **@jiki/curriculum** package - a TypeScript library that defines all exercises and learning content for the Jiki platform. It serves as the central source of educational content that gets consumed by the frontend application, supporting both JavaScript and Python programming languages.
+This is the **@jiki/curriculum** package - a TypeScript library that defines all exercises for the Jiki Learn to Code Education platform. It serves as the central source of educational content that gets consumed by the frontend application, supporting both custom versions of the JavaScript and Python programming languages.
 
 ### Purpose
 
 The curriculum repository:
 
-- Defines all coding exercises and their scenarios
-- Produces animations that visualize code execution
-- Manages exercise state and available functions
+- Defines all coding exercises,, with:
+  - their tasks/scenarios
+  - the animations they produce
+  - their state
+  - available functions
 - Defines language features for each learning level (AST nodes, feature flags)
 - Provides type-safe interfaces for integration with the frontend
 - Maintains independence from rendering libraries (like anime.js)
