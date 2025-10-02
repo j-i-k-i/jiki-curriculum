@@ -1,4 +1,4 @@
-import type { Level } from "../types";
+import type { Level } from "./types";
 
 const usingFunctions: Level = {
   id: "using-functions",
@@ -21,8 +21,7 @@ const usingFunctions: Level = {
       ],
       languageFeatures: {}
     }
-  },
-  lessons: []
+  }
 };
 
 export { usingFunctions };

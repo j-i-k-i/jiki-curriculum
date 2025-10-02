@@ -10,24 +10,26 @@ This is the **@jiki/curriculum** package - a TypeScript library that defines all
 
 The curriculum repository:
 
-- Defines all coding exercises and their scenarios for both JavaScript and Python
+- Defines all coding exercises and their scenarios
 - Produces animations that visualize code execution
-- Manages exercise state and available functions (with language-appropriate naming)
+- Manages exercise state and available functions
+- Defines language features for each learning level (AST nodes, feature flags)
 - Provides type-safe interfaces for integration with the frontend
 - Maintains independence from rendering libraries (like anime.js)
-- Ensures feature parity between JavaScript and Python learning paths
+
+**Note**: The syllabus structure (lessons, ordering, progression) is managed by the API in `curriculum.json`. This repository focuses on exercise implementations and language feature definitions.
 
 ### Key Documentation
 
 For detailed information about specific aspects of the curriculum:
 
 - **[Exercises](.context/exercises.md)** - Creating and structuring exercises
-- **[Levels](.context/levels.md)** - Progressive learning stages and language features
-- **[Syllabus](.context/syllabus.md)** - Course organization and lesson sequencing
+- **[Levels](.context/levels.md)** - Language features and AST node restrictions per level
 - **[Animations](.context/animations.md)** - Visual feedback system and animation patterns
 
 ### Integration with Jiki Ecosystem
 
+- **API**: The `@jiki/api` manages syllabus structure (levels, lessons, ordering) in `curriculum.json`
 - **Frontend Consumer**: The `@jiki/fe` package imports and renders exercises from this curriculum
 - **Type Bridge**: Provides `Animation` and `Exercise` types that frontend converts to anime.js
 - **Interpreter Integration**: Uses `@jiki/interpreters` for execution context and timing control
@@ -39,8 +41,7 @@ curriculum/
 ├── .context/                 # Detailed documentation
 │   ├── animations.md        # Animation system guide
 │   ├── exercises.md         # Exercise creation guide
-│   ├── levels.md           # Level system documentation
-│   └── syllabus.md         # Syllabus structure guide
+│   └── levels.md            # Level system documentation
 ├── src/
 │   ├── Exercise.ts           # Base Exercise class and Animation interface
 │   ├── index.ts              # Main package exports
@@ -51,20 +52,16 @@ curriculum/
 │   │       ├── index.ts      # Exercise exports
 │   │       ├── Exercise.ts   # Exercise implementation
 │   │       └── scenarios.ts  # Exercise scenarios/levels
-│   ├── levels/               # Learning level definitions
-│   │   ├── index.ts          # Level exports and helpers
-│   │   ├── types.ts          # Level type definitions
-│   │   ├── fundamentals.ts   # Basic programming level
-│   │   └── variables.ts      # Variables level
-│   └── syllabus/             # Course structure
-│       ├── index.ts          # Syllabus exports
-│       ├── types.ts          # Syllabus types
-│       └── syllabus.ts       # Main syllabus definition
+│   └── levels/               # Learning level definitions (language features)
+│       ├── index.ts          # Level registry and helpers
+│       ├── types.ts          # Level type definitions
+│       ├── using-functions.ts # Using functions level
+│       ├── fundamentals.ts   # Basic programming level
+│       └── variables.ts      # Variables level
 ├── dist/                     # Compiled JavaScript output
 ├── tests/                    # Test files
 │   ├── exercises/            # Exercise tests
-│   ├── levels/               # Level system tests
-│   └── syllabus/             # Syllabus tests
+│   └── levels/               # Level feature tests
 ├── PLAN.md                   # Type strategy documentation
 └── package.json             # Package configuration
 ```
