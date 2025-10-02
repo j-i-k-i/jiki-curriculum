@@ -64,32 +64,29 @@ describe("Language Features", () => {
 
   describe("getFeatureFlags", () => {
     it("should return language features for JavaScript fundamentals", () => {
-      const flags = getFeatureFlags("fundamentals", "javascript") as JavaScriptFeatureFlags | undefined;
-      expect(flags).toBeDefined();
-      expect(flags?.allowTruthiness).toBe(false);
-      expect(flags?.allowTypeCoercion).toBe(false);
-      expect(flags?.enforceStrictEquality).toBe(true);
-      expect(flags?.allowShadowing).toBe(false);
+      const flags = getFeatureFlags("fundamentals", "javascript") as JavaScriptFeatureFlags;
+      expect(flags.allowTruthiness).toBe(false);
+      expect(flags.allowTypeCoercion).toBe(false);
+      expect(flags.enforceStrictEquality).toBe(true);
+      expect(flags.allowShadowing).toBe(false);
     });
 
     it("should return language features for JavaScript variables", () => {
-      const flags = getFeatureFlags("variables", "javascript") as JavaScriptFeatureFlags | undefined;
-      expect(flags).toBeDefined();
-      expect(flags?.requireVariableInstantiation).toBe(true);
-      expect(flags?.allowShadowing).toBe(false);
+      const flags = getFeatureFlags("variables", "javascript") as JavaScriptFeatureFlags;
+      expect(flags.requireVariableInstantiation).toBe(true);
+      expect(flags.allowShadowing).toBe(false);
     });
 
     it("should return language features for Python fundamentals", () => {
       const flags = getFeatureFlags("fundamentals", "python");
-      expect(flags).toBeDefined();
-      expect(flags?.allowTruthiness).toBe(false);
-      expect(flags?.allowTypeCoercion).toBe(false);
+      expect(flags.allowTruthiness).toBe(false);
+      expect(flags.allowTypeCoercion).toBe(false);
     });
 
-    it("should return undefined for unconfigured language", () => {
+    it("should return empty object for unconfigured language", () => {
       // @ts-expect-error Testing invalid language
       const flags = getFeatureFlags("fundamentals", "ruby");
-      expect(flags).toBeUndefined();
+      expect(flags).toEqual({});
     });
   });
 
@@ -154,16 +151,16 @@ describe("Language Features", () => {
     });
 
     it("feature flags should remain consistent or become more permissive", () => {
-      const fundamentalFlags = getFeatureFlags("fundamentals", "javascript") as JavaScriptFeatureFlags | undefined;
-      const variableFlags = getFeatureFlags("variables", "javascript") as JavaScriptFeatureFlags | undefined;
+      const fundamentalFlags = getFeatureFlags("fundamentals", "javascript") as JavaScriptFeatureFlags;
+      const variableFlags = getFeatureFlags("variables", "javascript") as JavaScriptFeatureFlags;
 
       // Strict equality should remain enforced
-      expect(fundamentalFlags?.enforceStrictEquality).toBe(true);
-      expect(variableFlags?.enforceStrictEquality).toBe(true);
+      expect(fundamentalFlags.enforceStrictEquality).toBe(true);
+      expect(variableFlags.enforceStrictEquality).toBe(true);
 
       // Truthiness should remain disabled in early levels
-      expect(fundamentalFlags?.allowTruthiness).toBe(false);
-      expect(variableFlags?.allowTruthiness).toBe(false);
+      expect(fundamentalFlags.allowTruthiness).toBe(false);
+      expect(variableFlags.allowTruthiness).toBe(false);
     });
   });
 

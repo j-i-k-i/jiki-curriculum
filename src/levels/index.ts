@@ -34,13 +34,10 @@ export function getAllowedNodes(levelId: LevelId | string, language: "javascript
 }
 
 // Helper to get feature flags for a language
-export function getFeatureFlags(
-  levelId: LevelId | string,
-  language: "javascript" | "python"
-): LanguageFeatureFlags | undefined {
+export function getFeatureFlags(levelId: LevelId | string, language: "javascript" | "python"): LanguageFeatureFlags {
   const level = getLevel(levelId);
   const features = level?.languageFeatures[language];
-  return features?.languageFeatures;
+  return features?.languageFeatures ?? {};
 }
 
 // Helper to get combined language features for interpreter (accumulates from all levels up to target)
