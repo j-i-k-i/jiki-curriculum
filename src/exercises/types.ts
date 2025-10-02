@@ -1,4 +1,5 @@
 import type { Exercise } from "../Exercise";
+import type { LevelId } from "../levels";
 
 export interface ExerciseDefinition {
   // From metadata.json
@@ -6,6 +7,7 @@ export interface ExerciseDefinition {
   title: string;
   instructions: string;
   estimatedMinutes: number;
+  levelId: LevelId; // The level this exercise belongs to (determines allowed language features)
 
   // Core components
   initialCode: string;
@@ -15,7 +17,13 @@ export interface ExerciseDefinition {
 
   // Optional
   hints?: string[];
-  solution?: string;
+
+  // Language-specific solutions (jikiscript is required)
+  solutions: {
+    jikiscript: string;
+    javascript?: string;
+    python?: string;
+  };
 }
 
 export interface Task {

@@ -20,7 +20,8 @@
       "Bash(tree:*)",
       "Bash(git push:*)",
       "Read(//Users/iHiD/.claude/**)",
-      "Bash(git fetch:*)"
+      "Bash(git fetch:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []

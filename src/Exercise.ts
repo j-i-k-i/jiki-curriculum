@@ -15,6 +15,8 @@ export interface Animation {
     rotate?: number;
     scale?: number;
     opacity?: number;
+    gridRow?: number;
+    gridColumn?: number;
   };
 }
 

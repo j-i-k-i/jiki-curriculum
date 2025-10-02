@@ -14,3 +14,12 @@ export { TestExercise } from "./mocks";
 
 // Export levels - language feature definitions for each level
 export { levels, getLevel, getLanguageFeatures, type Level, type LevelId } from "./levels";
+
+// Export test runner for curriculum validation
+export {
+  runScenarioTest,
+  runAllScenarios,
+  runExerciseTests,
+  runExerciseSolution,
+  type ScenarioTestResult
+} from "./test-runner";
