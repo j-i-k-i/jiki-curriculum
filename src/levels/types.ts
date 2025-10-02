@@ -1,6 +1,5 @@
 // Import node types from interpreters - the canonical source
 import type { javascript, python } from "@jiki/interpreters";
-import type { ExerciseSlug } from "../exercises";
 
 // Core level interface
 export interface Level {
@@ -13,8 +12,6 @@ export interface Level {
     javascript?: JavaScriptFeatures;
     python?: PythonFeatures;
   };
-
-  lessons: Lesson[]; // Lessons for this level
 }
 
 // JavaScript-specific features
@@ -42,35 +39,3 @@ export interface PythonFeatures {
     allowTypeCoercion?: boolean;
   };
 }
-
-// Lesson types
-export type LessonType = "exercise" | "tutorial" | "challenge" | "assessment";
-
-export interface BaseLesson {
-  id: string;
-  title: string;
-  description?: string;
-  type: LessonType;
-}
-
-export interface ExerciseLesson extends BaseLesson {
-  type: "exercise";
-  exerciseSlug: ExerciseSlug; // References exercise from exercises registry
-}
-
-export interface TutorialLesson extends BaseLesson {
-  type: "tutorial";
-  tutorialContent?: string; // Markdown content or reference to content
-}
-
-export interface ChallengeLesson extends BaseLesson {
-  type: "challenge";
-  challengeSlug?: string; // Reference to challenge definition
-}
-
-export interface AssessmentLesson extends BaseLesson {
-  type: "assessment";
-  assessmentSlug?: string; // Reference to assessment definition
-}
-
-export type Lesson = ExerciseLesson | TutorialLesson | ChallengeLesson | AssessmentLesson;

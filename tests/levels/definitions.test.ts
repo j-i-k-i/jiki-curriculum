@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getLevel, getLevelIds } from "../../src/syllabus";
+import { getLevel, getLevelIds } from "../../src/levels";
 
 describe("Level Definitions", () => {
   describe("fundamentals level", () => {

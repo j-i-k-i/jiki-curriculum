@@ -1,21 +1,21 @@
 import { describe, it, expect } from "vitest";
-import { syllabus, getLevel, hasLevel, getLevelIds } from "../../src/syllabus";
+import { levels, getLevel, hasLevel, getLevelIds } from "../../src/levels";
 
 describe("Level Registry", () => {
-  describe("syllabus array", () => {
+  describe("levels array", () => {
     it("should contain using-functions level", () => {
-      expect(syllabus[0]).toBeDefined();
-      expect(syllabus[0].id).toBe("using-functions");
+      expect(levels[0]).toBeDefined();
+      expect(levels[0].id).toBe("using-functions");
     });
 
     it("should contain fundamentals level", () => {
-      expect(syllabus[1]).toBeDefined();
-      expect(syllabus[1].id).toBe("fundamentals");
+      expect(levels[1]).toBeDefined();
+      expect(levels[1].id).toBe("fundamentals");
     });
 
     it("should contain variables level", () => {
-      expect(syllabus[2]).toBeDefined();
-      expect(syllabus[2].id).toBe("variables");
+      expect(levels[2]).toBeDefined();
+      expect(levels[2].id).toBe("variables");
     });
   });
 

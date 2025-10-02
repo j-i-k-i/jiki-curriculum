@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getAllowedNodes, getFeatureFlags, getLanguageFeatures } from "../../src/syllabus";
+import { getAllowedNodes, getFeatureFlags, getLanguageFeatures } from "../../src/levels";
 
 describe("Language Features", () => {
   describe("getAllowedNodes", () => {

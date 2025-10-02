@@ -2,7 +2,9 @@
 
 ## Overview
 
-Levels define the progressive learning stages in Jiki. Each level specifies which language features are available to students, controlling the complexity of code they can write. This allows for a gradual introduction of programming concepts without overwhelming beginners.
+Levels define language features available at each learning stage in Jiki. Each level specifies which AST nodes and feature flags are allowed, controlling the complexity of code students can write. This allows for a gradual introduction of programming concepts without overwhelming beginners.
+
+**Note**: Levels in this curriculum repository provide **frontend-specific metadata** about language features. The actual syllabus structure (lessons, ordering, progression) is managed by the API in `curriculum.json`.
 
 ## Level System Architecture
 
@@ -142,12 +144,12 @@ export const functionsLevel: Level = {
 // src/levels/index.ts
 import { functionsLevel } from "./functions";
 
-const levels: Level[] = [
+export const levels = [
   fundamentalsLevel,
   variablesLevel,
   functionsLevel // Add here
   // ...
-];
+] as const;
 ```
 
 ### Step 3: Update Tests

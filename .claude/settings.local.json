@@ -1,26 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Read(//Users/iHiD/Code/jiki/overview/**)",
-      "Read(//Users/iHiD/Code/jiki/fe/**)",
-      "Bash(ln:*)",
       "Read(//Users/iHiD/Code/jiki/**)",
-      "Read(//Users/iHiD/Code/**)",
-      "Bash(pnpm add:*)",
-      "Bash(pnpm install:*)",
-      "Bash(pnpm test:*)",
-      "Bash(git checkout:*)",
       "Bash(git add:*)",
-      "Bash(git commit -m \"$(cat <<''EOF''\nAdd testing infrastructure and CI workflows\n\n- Set up curriculum as independent workspace with pnpm-workspace.yaml\n- Add Vitest for testing with jsdom environment\n- Create basic test for Exercise class getView method\n- Add GitHub Actions workflows for tests, typecheck, lint, and format\n- Configure package to use workspace:* for @jiki/interpreters dependency\n\n🤖 Generated with Claude Code\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
       "Bash(git commit:*)",
+      "Bash(gh pr create --title \"Add Claude Code Review workflow\" --body \"$(cat <<''EOF''\n## Summary\n- Added Claude Code Review GitHub Action workflow to enable automated PR reviews\n- Copied configuration from interpreters repository for consistency\n\n## Test plan\n- [ ] Workflow triggers correctly on PR open/synchronize\n- [ ] Claude provides meaningful code review feedback\n- [ ] Comments are posted to PR successfully\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\nEOF\n)\")",
+      "Bash(pnpm test:*)",
       "Bash(pnpm run:*)",
-      "Bash(chmod:*)",
-      "Bash(/Users/iHiD/Code/jiki/fe/checkout-main.sh)",
-      "Bash(gh pr create:*)",
-      "Bash(tree:*)",
-      "Bash(git push:*)",
-      "Read(//Users/iHiD/.claude/**)",
-      "Bash(git fetch:*)"
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []
