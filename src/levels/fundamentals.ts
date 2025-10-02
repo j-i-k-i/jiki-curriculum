@@ -1,4 +1,4 @@
-import type { Level } from "../types";
+import type { Level } from "./types";
 
 export const fundamentalsLevel: Level = {
   id: "fundamentals",
@@ -33,30 +33,6 @@ export const fundamentalsLevel: Level = {
         allowTypeCoercion: false
       }
     }
-  },
-
-  lessons: [
-    {
-      id: "first-function-call",
-      title: "Your First Function Call",
-      description: "Learn how to call functions to make things happen",
-      type: "exercise",
-      exerciseSlug: "basic-movement"
-    }
-    // Future lessons for fundamentals level:
-    // {
-    //   id: "multiple-calls",
-    //   title: "Calling Functions Multiple Times",
-    //   description: "Practice calling functions repeatedly",
-    //   type: "exercise",
-    //   exerciseSlug: "repeated-movement"
-    // },
-    // {
-    //   id: "function-arguments",
-    //   title: "Functions with Arguments",
-    //   description: "Learn to pass values to functions",
-    //   type: "exercise",
-    //   exerciseSlug: "movement-with-distance"
-    // }
-  ]
+    // Python support will be added when NodeType is defined in interpreters
+  }
 };

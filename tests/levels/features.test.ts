@@ -1,10 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-  getAllowedNodes,
-  getFeatureFlags,
-  getLanguageFeatures,
-  getAccumulatedLanguageFeatures
-} from "../../src/syllabus";
+import { getAllowedNodes, getFeatureFlags, getLanguageFeatures, type JavaScriptFeatureFlags } from "../../src/levels";
 
 describe("Language Features", () => {
   describe("getAllowedNodes", () => {
@@ -69,32 +64,29 @@ describe("Language Features", () => {
 
   describe("getFeatureFlags", () => {
     it("should return language features for JavaScript fundamentals", () => {
-      const flags = getFeatureFlags("fundamentals", "javascript");
-      expect(flags).toBeDefined();
-      expect(flags?.allowTruthiness).toBe(false);
-      expect(flags?.allowTypeCoercion).toBe(false);
-      expect(flags?.enforceStrictEquality).toBe(true);
-      expect(flags?.allowShadowing).toBe(false);
+      const flags = getFeatureFlags("fundamentals", "javascript") as JavaScriptFeatureFlags;
+      expect(flags.allowTruthiness).toBe(false);
+      expect(flags.allowTypeCoercion).toBe(false);
+      expect(flags.enforceStrictEquality).toBe(true);
+      expect(flags.allowShadowing).toBe(false);
     });
 
     it("should return language features for JavaScript variables", () => {
-      const flags = getFeatureFlags("variables", "javascript");
-      expect(flags).toBeDefined();
-      expect(flags?.requireVariableInstantiation).toBe(true);
-      expect(flags?.allowShadowing).toBe(false);
+      const flags = getFeatureFlags("variables", "javascript") as JavaScriptFeatureFlags;
+      expect(flags.requireVariableInstantiation).toBe(true);
+      expect(flags.allowShadowing).toBe(false);
     });
 
     it("should return language features for Python fundamentals", () => {
       const flags = getFeatureFlags("fundamentals", "python");
-      expect(flags).toBeDefined();
-      expect(flags?.allowTruthiness).toBe(false);
-      expect(flags?.allowTypeCoercion).toBe(false);
+      expect(flags.allowTruthiness).toBe(false);
+      expect(flags.allowTypeCoercion).toBe(false);
     });
 
-    it("should return undefined for unconfigured language", () => {
+    it("should return empty object for unconfigured language", () => {
       // @ts-expect-error Testing invalid language
       const flags = getFeatureFlags("fundamentals", "ruby");
-      expect(flags).toBeUndefined();
+      expect(flags).toEqual({});
     });
   });
 
@@ -159,22 +151,22 @@ describe("Language Features", () => {
     });
 
     it("feature flags should remain consistent or become more permissive", () => {
-      const fundamentalFlags = getFeatureFlags("fundamentals", "javascript");
-      const variableFlags = getFeatureFlags("variables", "javascript");
+      const fundamentalFlags = getFeatureFlags("fundamentals", "javascript") as JavaScriptFeatureFlags;
+      const variableFlags = getFeatureFlags("variables", "javascript") as JavaScriptFeatureFlags;
 
       // Strict equality should remain enforced
-      expect(fundamentalFlags?.enforceStrictEquality).toBe(true);
-      expect(variableFlags?.enforceStrictEquality).toBe(true);
+      expect(fundamentalFlags.enforceStrictEquality).toBe(true);
+      expect(variableFlags.enforceStrictEquality).toBe(true);
 
       // Truthiness should remain disabled in early levels
-      expect(fundamentalFlags?.allowTruthiness).toBe(false);
-      expect(variableFlags?.allowTruthiness).toBe(false);
+      expect(fundamentalFlags.allowTruthiness).toBe(false);
+      expect(variableFlags.allowTruthiness).toBe(false);
     });
   });
 
-  describe("getAccumulatedLanguageFeatures", () => {
+  describe("getLanguageFeatures - accumulation", () => {
     it("should accumulate nodes from all previous levels", () => {
-      const features = getAccumulatedLanguageFeatures("variables", "javascript");
+      const features = getLanguageFeatures("variables", "javascript");
 
       // Should have nodes from both fundamentals and variables
       expect(features.allowedNodes).toContain("LiteralExpression"); // from fundamentals
@@ -184,14 +176,14 @@ describe("Language Features", () => {
     });
 
     it("should not duplicate nodes", () => {
-      const features = getAccumulatedLanguageFeatures("variables", "javascript");
+      const features = getLanguageFeatures("variables", "javascript");
       const literalCount = features.allowedNodes?.filter((n) => n === "LiteralExpression").length ?? 0;
       expect(literalCount).toBe(1);
     });
 
     it("should override language features with later levels", () => {
-      const fundamentals = getAccumulatedLanguageFeatures("fundamentals", "javascript");
-      const variables = getAccumulatedLanguageFeatures("variables", "javascript");
+      const fundamentals = getLanguageFeatures("fundamentals", "javascript");
+      const variables = getLanguageFeatures("variables", "javascript");
 
       // fundamentals shouldn't have this flag
       expect(fundamentals.requireVariableInstantiation).toBeUndefined();
@@ -205,7 +197,7 @@ describe("Language Features", () => {
     });
 
     it("should work for Python as well", () => {
-      const features = getAccumulatedLanguageFeatures("variables", "python");
+      const features = getLanguageFeatures("variables", "python");
 
       // Should have nodes from both levels
       expect(features.allowedNodes).toContain("LiteralExpression");
@@ -214,15 +206,8 @@ describe("Language Features", () => {
     });
 
     it("should return empty object for invalid level", () => {
-      const features = getAccumulatedLanguageFeatures("invalid-level", "javascript");
+      const features = getLanguageFeatures("invalid-level", "javascript");
       expect(features).toEqual({});
-    });
-
-    it("getLanguageFeatures should use accumulated features by default", () => {
-      const accumulated = getAccumulatedLanguageFeatures("variables", "javascript");
-      const features = getLanguageFeatures("variables", "javascript");
-
-      expect(features).toEqual(accumulated);
     });
   });
 });
