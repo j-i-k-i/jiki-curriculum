@@ -1,18 +1,18 @@
 import { type ExecutionContext } from "@jiki/interpreters";
 import { Exercise } from "../../Exercise";
+import metadata from "./metadata.json";
 
 type Direction = "up" | "right" | "down" | "left";
 
 export default class MazeSolveBasicExercise extends Exercise {
+  protected get slug() {
+    return metadata.slug;
+  }
   characterRow: number = 0;
   characterCol: number = 0;
   direction: Direction = "down";
   rotation: number = 0; // Continuous rotation value in degrees
   grid: number[][] = [];
-
-  constructor() {
-    super();
-  }
 
   availableFunctions = [
     {
@@ -168,22 +168,15 @@ export default class MazeSolveBasicExercise extends Exercise {
   protected populateView() {
     if ((this.grid?.length ?? 0) === 0) return;
 
-    const container = document.createElement("div");
-    this.view.appendChild(container);
-    container.className = "exercise-container";
-
-    const mazeContainer = document.createElement("div");
-    mazeContainer.className = "exercise-maze";
     const gridSize = this.grid.length;
-    mazeContainer.style.setProperty("--gridSize", gridSize.toString());
-    container.appendChild(mazeContainer);
+    this.view.style.setProperty("--gridSize", gridSize.toString());
 
     // Create cells grid
     const cellsContainer = document.createElement("div");
     cellsContainer.className = "cells";
     cellsContainer.style.gridTemplateColumns = `repeat(${this.grid[0].length}, 1fr)`;
     cellsContainer.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
-    mazeContainer.appendChild(cellsContainer);
+    this.view.appendChild(cellsContainer);
 
     // Generate cells from grid
     for (let row = 0; row < gridSize; row++) {

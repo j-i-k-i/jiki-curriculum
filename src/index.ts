@@ -23,3 +23,6 @@ export {
   runExerciseSolution,
   type ScenarioTestResult
 } from "./test-runner";
+
+// Export CSS timestamp (triggers HMR when CSS changes)
+export { CSS_LAST_UPDATED } from "./css_last_touched";

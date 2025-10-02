@@ -2,6 +2,9 @@ import { type ExecutionContext } from "@jiki/interpreters";
 import { Exercise } from "../Exercise";
 
 export class TestExercise extends Exercise {
+  protected get slug() {
+    return "test-exercise";
+  }
   position: number = 0;
   counter: number = 0;
 
