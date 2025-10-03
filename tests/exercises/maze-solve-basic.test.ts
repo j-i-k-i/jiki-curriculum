@@ -47,19 +47,19 @@ describe("MazeSolveBasicExercise", () => {
     it("should set direction and rotation for up", () => {
       exercise.setupDirection("up");
       expect(exercise.direction).toBe("up");
-      expect(exercise.rotation).toBe(180);
+      expect(exercise.rotation).toBe(0);
     });
 
     it("should set direction and rotation for right", () => {
       exercise.setupDirection("right");
       expect(exercise.direction).toBe("right");
-      expect(exercise.rotation).toBe(270);
+      expect(exercise.rotation).toBe(90);
     });
 
     it("should set direction and rotation for left", () => {
       exercise.setupDirection("left");
       expect(exercise.direction).toBe("left");
-      expect(exercise.rotation).toBe(90);
+      expect(exercise.rotation).toBe(-90);
     });
   });
 
