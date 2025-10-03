@@ -8,6 +8,7 @@ export default class MazeSolveBasicExercise extends Exercise {
   protected get slug() {
     return metadata.slug;
   }
+  character: HTMLElement = document.createElement("div");
   characterRow: number = 0;
   characterCol: number = 0;
   direction: Direction = "down";
@@ -67,15 +68,20 @@ export default class MazeSolveBasicExercise extends Exercise {
     this.characterRow = newRow;
     this.characterCol = newCol;
 
+    // Calculate percentage positions (center of cell)
+    const cellWidth = 100 / this.grid[0].length;
+    const cellHeight = 100 / this.grid.length;
+    const left = this.characterCol * cellWidth + cellWidth / 2;
+    const top = this.characterRow * cellHeight + cellHeight / 2;
+
     // Add animation for movement
     this.animations.push({
       targets: `#${this.view.id} .character`,
       offset: executionCtx.getCurrentTimeInMs(),
       duration: 200,
       transformations: {
-        // Grid uses 1-based indexing for CSS grid-row/grid-column
-        gridRow: this.characterRow + 1,
-        gridColumn: this.characterCol + 1
+        left: left,
+        top: top
       }
     });
 
@@ -84,7 +90,7 @@ export default class MazeSolveBasicExercise extends Exercise {
 
   turnLeft(executionCtx: ExecutionContext) {
     // Rotate 90 degrees counter-clockwise
-    this.rotation += 90;
+    this.rotation -= 90;
 
     // Update direction
     const directions: Direction[] = ["down", "right", "up", "left"];
@@ -106,7 +112,7 @@ export default class MazeSolveBasicExercise extends Exercise {
 
   turnRight(executionCtx: ExecutionContext) {
     // Rotate 90 degrees clockwise
-    this.rotation -= 90;
+    this.rotation += 90;
 
     // Update direction
     const directions: Direction[] = ["down", "left", "up", "right"];
@@ -142,12 +148,13 @@ export default class MazeSolveBasicExercise extends Exercise {
     this.direction = dir;
     // Set initial rotation based on direction
     const rotationMap: Record<Direction, number> = {
-      down: 0,
-      left: 90,
-      up: 180,
-      right: 270
+      up: 0,
+      right: 90,
+      down: 180,
+      left: -90
     };
     this.rotation = rotationMap[dir];
+    this.character.style.transform = `rotate(${this.rotation}deg)`;
   }
 
   getGameResult(): string | null {
@@ -193,12 +200,15 @@ export default class MazeSolveBasicExercise extends Exercise {
       }
     }
 
-    // Create character
-    const character = document.createElement("div");
-    character.className = "character";
-    character.style.gridRow = (this.characterRow + 1).toString();
-    character.style.gridColumn = (this.characterCol + 1).toString();
-    character.style.transform = `rotate(${this.rotation}deg)`;
-    cellsContainer.appendChild(character);
+    // Create character with absolute positioning
+    const cellWidth = 100 / this.grid[0].length;
+    const cellHeight = 100 / this.grid.length;
+    const left = this.characterCol * cellWidth + cellWidth / 2;
+    const top = this.characterRow * cellHeight + cellHeight / 2;
+
+    this.character.className = "character";
+    this.character.style.left = `${left}%`;
+    this.character.style.top = `${top}%`;
+    this.view.appendChild(this.character);
   }
 }

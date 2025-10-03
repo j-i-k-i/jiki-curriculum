@@ -60,9 +60,12 @@
     }
 
     .character {
-        width: 88%;
-        height: 80%;
-        margin: 10%;
+        position: absolute;
+        --character-size: calc(70% / var(--gridSize));
+        width: var(--character-size);
+        height: var(--character-size);
+        margin-left: calc(var(--character-size) / -2);
+        margin-top: calc(var(--character-size) / -2);
         background-color: lightblue;
         border: 1px solid green;
         border-radius: 50%;
