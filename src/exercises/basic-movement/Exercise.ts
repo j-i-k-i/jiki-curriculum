@@ -1,7 +1,11 @@
 import { type ExecutionContext } from "@jiki/interpreters";
 import { Exercise } from "../../Exercise";
+import metadata from "./metadata.json";
 
 export default class BasicMovementExercise extends Exercise {
+  protected get slug() {
+    return metadata.slug;
+  }
   position: number = 0;
 
   availableFunctions = [

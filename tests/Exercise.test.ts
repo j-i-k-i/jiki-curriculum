@@ -17,7 +17,7 @@ describe("Exercise", () => {
       const view = exercise.getView();
 
       expect(view.id).toBeDefined();
-      expect(view.id).toMatch(/^exercise-[a-z0-9]+$/);
+      expect(view.id).toMatch(/^exercise-[a-z0-9-]+-[a-z0-9]+$/);
     });
 
     it("should populate the view with initial content", () => {

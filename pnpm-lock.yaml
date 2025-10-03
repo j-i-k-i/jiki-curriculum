@@ -38,6 +38,9 @@ importers:
       jsdom:
         specifier: ^27.0.0
         version: 27.0.0(postcss@8.5.6)
+      onchange:
+        specifier: ^7.1.0
+        version: 7.1.0
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -129,6 +132,14 @@ packages:
     resolution:
       { integrity: sha512-Q/N6JNWvIvPnLDvjlE1OUBLPQHH6l3CltCEsHIujp45zQUSSh8K+gHnaEX45yAT1nyngnINhvWtzN+Nb9D8RAQ== }
     engines: { node: ">=6.9.0" }
+
+  "@blakeembrey/deque@1.0.5":
+    resolution:
+      { integrity: sha512-6xnwtvp9DY1EINIKdTfvfeAtCYw4OqBZJhtiqkT3ivjnEfa25VQ3TsKvaFfKm8MyGIEfE95qLe+bNEt3nB0Ylg== }
+
+  "@blakeembrey/template@1.2.0":
+    resolution:
+      { integrity: sha512-w/63nURdkRPpg3AXbNr7lPv6HgOuVDyefTumiXsbXxtIwcuk5EXayWR5OpSwDjsQPgaYsfUSedMduaNOjAYY8A== }
 
   "@csstools/color-helpers@5.1.0":
     resolution:
@@ -747,6 +758,15 @@ packages:
       { integrity: sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg== }
     engines: { node: ">=8" }
 
+  anymatch@3.1.3:
+    resolution:
+      { integrity: sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw== }
+    engines: { node: ">= 8" }
+
+  arg@4.1.3:
+    resolution:
+      { integrity: sha512-58S9QDqG0Xx27YwPSt9fJxivjYl432YCwfDMfZ+71RAqUrZef7LrKQZ3LHLOwCS4FLNBplP533Zx895SeOCHvA== }
+
   argparse@2.0.1:
     resolution:
       { integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q== }
@@ -763,6 +783,11 @@ packages:
   bidi-js@1.0.3:
     resolution:
       { integrity: sha512-RKshQI1R3YQ+n9YJz2QQ147P66ELpa1FQEg20Dk8oW9t2KgLbpDLLp9aGZ7y8WHSshDknG0bknqGw5/tyCs5tw== }
+
+  binary-extensions@2.3.0:
+    resolution:
+      { integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw== }
+    engines: { node: ">=8" }
 
   brace-expansion@1.1.12:
     resolution:
@@ -801,6 +826,11 @@ packages:
     resolution:
       { integrity: sha512-OAlb+T7V4Op9OwdkjmguYRqncdlx5JiofwOAUkmTF+jNdHwzTaTs4sRAGpzLF3oOz5xAyDGrPgeIDFQmDOTiJw== }
     engines: { node: ">= 16" }
+
+  chokidar@3.6.0:
+    resolution:
+      { integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw== }
+    engines: { node: ">= 8.10.0" }
 
   color-convert@2.0.1:
     resolution:
@@ -1086,6 +1116,11 @@ packages:
       { integrity: sha512-JmXMZ6wuvDmLiHEml9ykzqO6lwFbof0GG4IkcGaENdCRDDmMVnny7s5HsIgHCbaq0w2MyPhDqkhTUgS2LU2PHA== }
     engines: { node: ">=0.8.19" }
 
+  is-binary-path@2.1.0:
+    resolution:
+      { integrity: sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw== }
+    engines: { node: ">=8" }
+
   is-extglob@2.1.1:
     resolution:
       { integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ== }
@@ -1227,6 +1262,16 @@ packages:
     resolution:
       { integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw== }
 
+  normalize-path@3.0.0:
+    resolution:
+      { integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA== }
+    engines: { node: ">=0.10.0" }
+
+  onchange@7.1.0:
+    resolution:
+      { integrity: sha512-ZJcqsPiWUAUpvmnJri5TPBooqJOPmC0ttN65juhN15Q8xA+Nbg3BaxBHXQ45EistKKlKElb0edmbPWnKSBkvMg== }
+    hasBin: true
+
   optionator@0.9.4:
     resolution:
       { integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g== }
@@ -1308,6 +1353,11 @@ packages:
   queue-microtask@1.2.3:
     resolution:
       { integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A== }
+
+  readdirp@3.6.0:
+    resolution:
+      { integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA== }
+    engines: { node: ">=8.10.0" }
 
   require-from-string@2.0.2:
     resolution:
@@ -1463,6 +1513,11 @@ packages:
     resolution:
       { integrity: sha512-bLVMLPtstlZ4iMQHpFHTR7GAGj2jxi8Dg0s2h2MafAE4uSWF98FC/3MomU51iQAMf8/qDUbKWf5GxuvvVcXEhw== }
     engines: { node: ">=20" }
+
+  tree-kill@1.2.2:
+    resolution:
+      { integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A== }
+    hasBin: true
 
   ts-api-utils@2.1.0:
     resolution:
@@ -1659,6 +1714,10 @@ snapshots:
   "@asamuzakjp/nwsapi@2.3.9": {}
 
   "@babel/runtime@7.28.4": {}
+
+  "@blakeembrey/deque@1.0.5": {}
+
+  "@blakeembrey/template@1.2.0": {}
 
   "@csstools/color-helpers@5.1.0": {}
 
@@ -2098,6 +2157,13 @@ snapshots:
     dependencies:
       color-convert: 2.0.1
 
+  anymatch@3.1.3:
+    dependencies:
+      normalize-path: 3.0.0
+      picomatch: 2.3.1
+
+  arg@4.1.3: {}
+
   argparse@2.0.1: {}
 
   assertion-error@2.0.1: {}
@@ -2107,6 +2173,8 @@ snapshots:
   bidi-js@1.0.3:
     dependencies:
       require-from-string: 2.0.2
+
+  binary-extensions@2.3.0: {}
 
   brace-expansion@1.1.12:
     dependencies:
@@ -2139,6 +2207,18 @@ snapshots:
       supports-color: 7.2.0
 
   check-error@2.1.1: {}
+
+  chokidar@3.6.0:
+    dependencies:
+      anymatch: 3.1.3
+      braces: 3.0.3
+      glob-parent: 5.1.2
+      is-binary-path: 2.1.0
+      is-glob: 4.0.3
+      normalize-path: 3.0.0
+      readdirp: 3.6.0
+    optionalDependencies:
+      fsevents: 2.3.3
 
   color-convert@2.0.1:
     dependencies:
@@ -2394,6 +2474,10 @@ snapshots:
 
   imurmurhash@0.1.4: {}
 
+  is-binary-path@2.1.0:
+    dependencies:
+      binary-extensions: 2.3.0
+
   is-extglob@2.1.1: {}
 
   is-glob@4.0.3:
@@ -2500,6 +2584,18 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
+  normalize-path@3.0.0: {}
+
+  onchange@7.1.0:
+    dependencies:
+      "@blakeembrey/deque": 1.0.5
+      "@blakeembrey/template": 1.2.0
+      arg: 4.1.3
+      chokidar: 3.6.0
+      cross-spawn: 7.0.6
+      ignore: 5.3.2
+      tree-kill: 1.2.2
+
   optionator@0.9.4:
     dependencies:
       deep-is: 0.1.4
@@ -2552,6 +2648,10 @@ snapshots:
   punycode@2.3.1: {}
 
   queue-microtask@1.2.3: {}
+
+  readdirp@3.6.0:
+    dependencies:
+      picomatch: 2.3.1
 
   require-from-string@2.0.2: {}
 
@@ -2669,6 +2769,8 @@ snapshots:
   tr46@6.0.0:
     dependencies:
       punycode: 2.3.1
+
+  tree-kill@1.2.2: {}
 
   ts-api-utils@2.1.0(typescript@5.9.2):
     dependencies:
